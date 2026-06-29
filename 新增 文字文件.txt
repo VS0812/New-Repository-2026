@@ -1,0 +1,93 @@
+#韓語#韓文#韓文跟讀#korealearning#高麗大學
+
+（跟讀版）新高麗大學韓國語 1 L1 무엇을 해요?你在做甚麼呢？
+
+
+
+使用新高麗大學韓國語第一冊，此篇為第九課對話
+직업이 무엇이에요? 
+저는 __________예요.
+跟讀版是直接進行跟讀練習，讓我們一起跟韓語慢慢變熟吧！
+
+
+
+
+使用新高麗大學韓國語第一冊，此篇為第九課對話
+___씨, 생일 축하해요. 이거 선물이에요. 
+저도 __  __ 고 싶었어요. 고마워요.
+練習版可以先自己嘗試填詞唸一遍，再跟讀練習，讓我們一起跟韓語慢慢變熟吧！
+
+
+
+
+Last login: Thu Jun 18 13:39:03 on ttys000
+(base) vickyshih@VickydeMacBook-Air ~ % node -v
+npm -v
+nvm -v
+zsh: command not found: node
+zsh: command not found: npm
+zsh: command not found: nvm
+(base) vickyshih@VickydeMacBook-Air ~ % npm install json-server
+
+
+added 43 packages in 5s
+
+15 packages are looking for funding
+  run `npm fund` for details
+npm notice
+npm notice New minor version of npm available! 11.13.0 -> 11.17.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.17.0
+npm notice To update run: npm install -g npm@11.17.0
+npm notice
+(base) vickyshih@VickydeMacBook-Air ~ % cd Desktop
+(base) vickyshih@VickydeMacBook-Air Desktop % cd json-server
+(base) vickyshih@VickydeMacBook-Air json-server % npx json-server db.json
+
+JSON Server started on PORT :3000
+Press CTRL-C to stop
+Watching db.json...
+
+(˶ᵔ ᵕ ᵔ˶)
+
+Index:
+http://localhost:3000/
+
+Static files:
+Serving ./public directory if it exists
+
+Endpoints:
+http://localhost:3000/posts
+http://localhost:3000/comments
+http://localhost:3000/profile
+
+Error parsing db.json
+Unexpected end of JSON input
+
+Endpoints:
+No endpoints found, try adding some data to db.json
+
+Error parsing db.json
+Expected ':' after property name in JSON at position 7 (line 3 column 1)
+
+Error parsing db.json
+Expected ':' after property name in JSON at position 10 (line 3 column 1)
+
+Error parsing db.json
+Expected ':' after property name in JSON at position 13 (line 3 column 1)
+
+Error parsing db.json
+Expected ':' after property name in JSON at position 17 (line 3 column 1)
+
+Error parsing db.json
+Expected ':' after property name in JSON at position 17 (line 3 column 1)
+
+Error parsing db.json
+Unexpected token '}', "{
+  "travelFood":
+}" is not valid JSON
+
+Endpoints:
+http://localhost:3000/travelFood
+   
+git--version
+
