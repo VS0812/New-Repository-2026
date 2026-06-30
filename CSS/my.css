@@ -49,6 +49,26 @@
     --success-color: #22C55E;
     --error-color: #EF4444;
     --info-color: #06B6D4;
+
+
+
+    --body-bg: #f6f1e9;
+    --hero-bg: #2f3a56;
+    --portfolio-bg: #f6f1e9;
+    --user-img-bg: #d8c3a5;
+    --user-img-shadow: rgba(31, 36, 48, 0.35);
+
+    --accent-main: #c58b5f;
+    --accent-dark: #5f3f36;
+    --accent-light: #fff7ef;
+    --text-main: #2f2f2f;
+    --text-muted: #7c6f68;
+    --card-bg: #ffffff;
+    --card-border: #ead8c5;
+    --button-bg: #2f3a56;
+    --button-bg-hover: #c58b5f;
+    --button-text: #ffffff;
+}
 }
 
 /* 字體粗細 */
