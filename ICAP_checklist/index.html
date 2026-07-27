@@ -823,6 +823,111 @@
             margin-top: 0;
         }
 
+        /* =========================
+   網站 Footer
+========================= */
+
+        .site-footer {
+            margin-top: 0;
+
+            background:
+                linear-gradient(135deg,
+                    var(--primary-dark),
+                    var(--primary-color));
+
+            color: #ffffff;
+        }
+
+        .site-footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+
+            width: min(1120px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 34px 0;
+        }
+
+        .site-footer-info {
+            max-width: 680px;
+        }
+
+        .site-footer-title {
+            margin: 0 0 8px;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .site-footer-description {
+            margin: 0;
+
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 15px;
+        }
+
+        .footer-top-link {
+            flex-shrink: 0;
+
+            padding: 10px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 999px;
+
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .footer-top-link:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-2px);
+        }
+
+        .site-footer-bottom {
+            padding: 16px;
+
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .site-footer-bottom p {
+            margin: 0;
+        }
+
+        .copyright-description {
+            margin-top: 5px !important;
+
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 12px;
+        }
+
+
+        /* Footer 手機版 */
+
+        @media (max-width: 700px) {
+            .site-footer-main {
+                flex-direction: column;
+                align-items: flex-start;
+
+                width: min(100% - 40px, 1120px);
+                padding: 28px 0;
+            }
+
+            .footer-top-link {
+                width: 100%;
+                text-align: center;
+            }
+        }
 
         /* 手機版頁籤 */
 
@@ -7078,7 +7183,47 @@
 
     </main>
 
+    <!-- =========================
+     網站 Footer
+========================== -->
 
+    <footer class="site-footer">
+
+        <div class="site-footer-main">
+
+            <div class="site-footer-info">
+
+                <h2 class="site-footer-title">
+                    AI 旅遊網站專案 Checklist
+                </h2>
+
+                <p class="site-footer-description">
+                    用於記錄專案完成進度、功能檢查與成果整理。
+                </p>
+
+            </div>
+
+
+            <a href="#" class="footer-top-link" aria-label="回到頁面頂端">
+                回到頁面頂端 ↑
+            </a>
+
+        </div>
+
+
+        <div class="site-footer-bottom">
+
+            <p>
+                © 2026 Vicky Shih. All Rights Reserved.
+            </p>
+
+            <p class="copyright-description">
+                本網站設計與程式碼由 Vicky Shih 製作。
+            </p>
+
+        </div>
+
+    </footer>
     <script>
         /* =========================
            1. localStorage 儲存名稱
