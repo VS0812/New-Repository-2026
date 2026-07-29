@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>短期－中期－長期規劃</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
+
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .planning-board {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .plan-row {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 24px;
+            align-items: stretch;
+
+            padding: 24px;
+            border-radius: 12px;
+            background-color: #ffffff;
+        }
+
+        .plan-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            padding: 20px;
+            border-right: 1px solid #dddddd;
+        }
+
+        .plan-list {
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            gap: 12px;
+
+            min-height: 180px;
+            padding: 14px;
+
+            border: 2px dashed #cccccc;
+            border-radius: 10px;
+        }
+
+        .plan-card {
+            width: calc(33.333% - 8px);
+            margin-bottom: 0;
+            cursor: grab;
+        }
+
+        .plan-card:active {
+            cursor: grabbing;
+        }
+
+        /* 正在拖曳時，原位置的卡片樣式 */
+        .sortable-ghost {
+            opacity: 0.4;
+            background-color: #dbeafe;
+        }
+
+        /* 拖曳中的卡片樣式 */
+        .sortable-drag {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .plan-row {
+                grid-template-columns: 1fr;
+            }
+
+            .plan-info {
+                border-right: 0;
+                border-bottom: 1px solid #dddddd;
+            }
+
+            .plan-card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container py-5">
+
+        <h1 class="text-center mb-4">
+            短期－中期－長期規劃
+        </h1>
+
+        <p class="text-center text-secondary mb-5">
+            拖曳卡片，調整任務的規劃階段
+        </p>
+        <form id="goalForm" class="mb-5">
+
+            <!-- 第一列：選擇時程 -->
+            <div class="row align-items-start mb-4">
+
+                <!-- 左邊標題 -->
+                <div class="col-auto">
+                    <div class="fw-bold fs-5">
+                        選擇時程
+                    </div>
+                </div>
+
+                <!-- 右邊：radio 與錯誤訊息 -->
+                <div class="col">
+
+                    <div id="planning_group">
+
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input planning-item" name="planningPeriod"
+                                id="shortPeriod" value="short">
+
+                            <label for="shortPeriod" class="form-check-label">
+                                短期
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input planning-item" name="planningPeriod"
+                                id="mediumPeriod" value="medium">
+
+                            <label for="mediumPeriod" class="form-check-label">
+                                中期
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input planning-item" name="planningPeriod"
+                                id="longPeriod" value="long">
+
+                            <label for="longPeriod" class="form-check-label">
+                                長期
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div id="periodError" class="text-danger mt-2 d-none">
+                        請選擇規劃時程
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 第二列：輸入目標 -->
+            <div class="row align-items-start g-2 mb-3">
+
+                <!-- 左邊標題 -->
+                <div class="col-auto">
+                    <label for="goalInput" class="form-label fw-bold fs-5 mb-0">
+                        輸入目標
+                    </label>
+                </div>
+
+                <!-- 右邊：輸入框與錯誤訊息 -->
+                <div class="col">
+
+                    <input type="text" class="form-control form-control-lg" id="goalInput"
+                        placeholder="例如：完成 JavaScript 基礎課程">
+
+                    <div id="goalError" class="text-danger mt-2 d-none">
+                        請輸入目標
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="row align-items-center g-2 mt-2">
+
+                <div class="col-auto">
+                    <label for="goalDescription" class="form-label fw-bold fs-5 mb-0">
+                        目標說明
+                    </label>
+                </div>
+
+                <div class="col">
+                    <input type="text" class="form-control" id="goalDescription" placeholder="例如：完成會員中心、行程規劃及資料庫功能">
+                </div>
+
+            </div>
+
+            <!-- 第四列：完成期限 -->
+            <div class="row align-items-start g-2 mt-3">
+
+                <div class="col-auto">
+                    <label for="goalDeadline" class="form-label fw-bold fs-5 mb-0">
+                        完成期限
+                    </label>
+                </div>
+
+                <div class="col">
+
+                    <input type="date" class="form-control" id="goalDeadline">
+
+                    <div class="form-text">
+                        尚未確定期限時可以留空，並在上方選擇短期、中期或長期。
+                    </div>
+
+                    <div id="deadlineError" class="text-danger mt-2 d-none">
+                        完成期限不能早於今天
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- 第五列：總送出按鈕 -->
+            <!-- 新增目標按鈕列 -->
+            <div class="row mt-4">
+
+                <div class="col text-center">
+
+                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                        新增目標
+                    </button>
+
+                </div>
+
+            </div>
+        </form>
+        <div class="planning-board">
+            <!-- 短期規劃 -->
+            <div class="plan-row">
+
+                <!-- 左邊：時程名稱 -->
+                <div class="plan-info">
+
+                    <h2 class="h4 mb-2">
+                        短期規劃
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+                        目前～三個月
+                    </p>
+
+                </div>
+
+                <!-- 右邊：拖曳卡片 -->
+                <div id="short-term-list" class="plan-list">
+
+                    <div class="card plan-card" data-id="task-1">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+
+                                <h5 class="card-title mb-2">
+                                    完成 FarmTrip 專案
+                                </h5>
+
+                                <button type="button" class="btn btn-sm btn-outline-danger delete-card-btn"
+                                    aria-label="刪除目標">
+                                    刪除
+                                </button>
+
+                            </div>
+
+                            <p class="card-text">
+                                完成會員中心、行程規劃及資料庫功能。
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <!-- 中期規劃 -->
+            <div class="plan-row">
+
+                <div class="plan-info">
+
+                    <h2 class="h4 mb-2">
+                        中期規劃
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+                        三個月～一年
+                    </p>
+
+                </div>
+
+                <div id="medium-term-list" class="plan-list">
+
+                    <div class="card plan-card" data-id="task-1">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+
+                                <h5 class="card-title mb-2">
+                                    完成 FarmTrip 專案
+                                </h5>
+
+                                <button type="button" class="btn btn-sm btn-outline-danger delete-card-btn"
+                                    aria-label="刪除目標">
+                                    刪除
+                                </button>
+
+                            </div>
+
+                            <p class="card-text">
+                                完成會員中心、行程規劃及資料庫功能。
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- 長期規劃 -->
+            <div class="plan-row">
+
+                <div class="plan-info">
+
+                    <h2 class="h4 mb-2">
+                        長期規劃
+                    </h2>
+
+                    <p class="text-secondary mb-0">
+                        一年以上
+                    </p>
+
+                </div>
+
+                <div id="long-term-list" class="plan-list">
+
+                    <div class="card plan-card" data-id="task-1">
+
+                        <div class="card-body">
+
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+
+                                <h5 class="card-title mb-2">
+                                    完成 FarmTrip 專案
+                                </h5>
+
+                                <button type="button" class="btn btn-sm btn-outline-danger delete-card-btn"
+                                    aria-label="刪除目標">
+                                    刪除
+                                </button>
+
+                            </div>
+
+                            <p class="card-text">
+                                完成會員中心、行程規劃及資料庫功能。
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Bootstrap JavaScript -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- SortableJS -->
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+
+        <script>
+            /*
+     * 找到新增目標需要使用的 HTML 元素。
+     */
+            const goalForm = document.querySelector("#goalForm");
+            const goalInput = document.querySelector("#goalInput");
+            const goalDescription = document.querySelector("#goalDescription");
+            const goalDeadline = document.querySelector("#goalDeadline");
+            const deadlineError = document.querySelector("#deadlineError");
+            const goalError = document.querySelector("#goalError");
+            const periodError = document.querySelector("#periodError");
+
+
+            /*
+ * 根據完成期限，判斷短期、中期或長期。
+ */
+            function getPlanningPeriod(deadlineValue) {
+                const today = new Date();
+                const deadlineDate = new Date(deadlineValue + "T00:00:00");
+
+                today.setHours(0, 0, 0, 0);
+
+                /*
+                 * 建立「今天的三個月後」。
+                 */
+                const threeMonthsLater = new Date(today);
+                threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+
+                /*
+                 * 建立「今天的一年後」。
+                 */
+                const oneYearLater = new Date(today);
+                oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+                /*
+                 * 期限在三個月內，屬於短期。
+                 */
+                if (deadlineDate <= threeMonthsLater) {
+                    return "short";
+                }
+
+                /*
+                 * 超過三個月，但在一年內，屬於中期。
+                 */
+                if (deadlineDate <= oneYearLater) {
+                    return "medium";
+                }
+
+                /*
+                 * 超過一年，屬於長期。
+                 */
+                return "long";
+            }
+            /*
+             * 當使用者送出表單時執行。
+             */
+            goalForm.addEventListener("submit", function (event) {
+
+                /*
+                 * 阻止表單送出後重新整理頁面。
+                 */
+                event.preventDefault();
+
+                /*
+                 * 取得輸入的目標。
+                 * trim() 會移除文字前後的空白。
+                 */
+                const goalText = goalInput.value.trim();
+                const descriptionText = goalDescription.value.trim();
+                const deadlineValue = goalDeadline.value;
+
+                /*
+                 * 找到目前被勾選的規劃時程。
+                 */
+                const selectedPeriod = document.querySelector(
+                    'input[name="planningPeriod"]:checked'
+                );
+
+                /*
+                 * 先假設表單正確。
+                 */
+                let isValid = true;
+
+                /*
+                 * 如果沒有輸入目標，顯示錯誤。
+                 */
+                if (goalText === "") {
+                    goalError.classList.remove("d-none");
+                    isValid = false;
+                } else {
+                    goalError.classList.add("d-none");
+                }
+
+                /*
+                 * 如果沒有選擇時程，顯示錯誤。
+                 */
+                /*
+ * 只有在「沒有期限」的情況下，
+ * 才要求使用者手動選擇時程。
+ */
+                if (deadlineValue === "" && selectedPeriod === null) {
+                    periodError.textContent = "沒有填寫完成期限時，請選擇規劃時程";
+                    periodError.classList.remove("d-none");
+                    isValid = false;
+                } else {
+                    periodError.classList.add("d-none");
+                }
+
+                /*
+ * 如果有填期限，就檢查期限是否早於今天。
+ */
+                if (deadlineValue !== "") {
+                    const today = new Date();
+                    const deadlineDate = new Date(deadlineValue + "T00:00:00");
+
+                    /*
+                     * 把今天的時間清成凌晨 00:00:00，
+                     * 避免同一天因為時分秒不同而被判定成過期。
+                     */
+                    today.setHours(0, 0, 0, 0);
+
+                    if (deadlineDate < today) {
+                        deadlineError.classList.remove("d-none");
+                        isValid = false;
+                    } else {
+                        deadlineError.classList.add("d-none");
+                    }
+                } else {
+                    deadlineError.classList.add("d-none");
+                }
+                /*
+                 * 表單有錯誤時，不繼續建立卡片。
+                 */
+                if (isValid === false) {
+                    return;
+                }
+
+                /*
+                 * 根據使用者選擇的時程，
+                 * 決定卡片要加入哪一個區域。
+                 */
+                let targetList;
+                let planningPeriod;
+
+                /*
+                 * 有完成期限：由系統自動判斷時程。
+                 */
+                if (deadlineValue !== "") {
+                    planningPeriod = getPlanningPeriod(deadlineValue);
+                }
+
+                /*
+                 * 沒有完成期限：使用 radio 的手動選擇。
+                 */
+                else {
+                    planningPeriod = selectedPeriod.value;
+                }
+
+                /*
+                 * 根據最後決定的時程，找到對應區域。
+                 */
+                if (planningPeriod === "short") {
+                    targetList = document.querySelector("#short-term-list");
+                } else if (planningPeriod === "medium") {
+                    targetList = document.querySelector("#medium-term-list");
+                } else {
+                    targetList = document.querySelector("#long-term-list");
+                }
+
+                /*
+                 * 建立新的 Bootstrap 卡片。
+                 */
+                const newCard = document.createElement("div");
+
+                /*
+                 * 加入 Bootstrap 卡片樣式與拖曳用樣式。
+                 */
+                newCard.className = "card plan-card";
+
+                /*
+                 * 使用目前時間建立簡單且不重複的 ID。
+                 */
+                newCard.dataset.id = "task-" + Date.now();
+
+                /*
+                 * 建立卡片裡面的內容。
+                 */
+                newCard.innerHTML = `
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-start gap-2">
+
+            <h5 class="card-title mb-2"></h5>
+
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-danger delete-card-btn"
+                aria-label="刪除目標"
+            >
+                刪除
+            </button>
+
+        </div>
+
+        <p class="card-text"></p>
+
+        <p class="card-deadline text-secondary small mb-0"></p>
+
+    </div>
+`;
+
+                /*
+                 * 使用 textContent 放入文字，
+                 * 避免使用者輸入 HTML 或 JavaScript。
+                 */
+                newCard.querySelector(".card-title").textContent = goalText;
+                newCard.querySelector(".card-text").textContent = descriptionText;
+
+                const deadlineElement = newCard.querySelector(".card-deadline");
+
+                if (deadlineValue !== "") {
+                    deadlineElement.textContent = "完成期限：" + deadlineValue;
+                } else {
+                    deadlineElement.textContent = "完成期限：尚未設定";
+                }
+                /*
+                 * 把新卡片加入指定的短期、中期或長期區域。
+                 */
+                targetList.appendChild(newCard);
+
+                /*
+                 * 新增完成後清空輸入欄。
+                 */
+                goalInput.value = "";
+                goalDescription.value = "";
+                goalDeadline.value = "";
+
+                /*
+                 * 取消目前選取的 radio。
+                 */
+                if (selectedPeriod !== null) {
+                    selectedPeriod.checked = false;
+                }
+                /*
+                 * 將輸入焦點移回目標欄位。
+                 */
+                goalInput.focus();
+            });
+            /*
+             * 找到三個規劃區域。
+             */
+            const planLists = document.querySelectorAll(".plan-list");
+
+            /*
+             * 分別替三個區域建立拖曳功能。
+             */
+            planLists.forEach(function (planList) {
+                new Sortable(planList, {
+                    /*
+                     * 三個區域使用相同 group 名稱，
+                     * 所以卡片可以跨區域拖曳。
+                     */
+                    group: "planning",
+
+                    /*
+                     * 拖曳移動的動畫時間。
+                     * 單位是毫秒。
+                     */
+                    animation: 200,
+
+                    /*
+                     * 只有 .plan-card 可以被拖曳。
+                     */
+                    draggable: ".plan-card",
+
+                    /*
+                     * 拖曳時，原位置顯示的樣式。
+                     */
+                    ghostClass: "sortable-ghost",
+
+                    /*
+                     * 拖曳結束後執行。
+                     */
+                    onEnd: function (event) {
+                        console.log("卡片拖曳完成");
+
+                        console.log("原本區域：", event.from.id);
+
+                        console.log("新的區域：", event.to.id);
+
+                        console.log("新的位置：", event.newIndex);
+                    }
+                });
+            });
+
+            /*
+ * 監聽整個規劃區域的點擊事件。
+ */
+            document.addEventListener("click", function (event) {
+
+                /*
+                 * 判斷使用者點擊的元素，
+                 * 是否為刪除按鈕。
+                 */
+                const deleteButton = event.target.closest(".delete-card-btn");
+
+                /*
+                 * 如果不是點擊刪除按鈕，就停止。
+                 */
+                if (deleteButton === null) {
+                    return;
+                }
+
+                /*
+                 * 找到刪除按鈕所在的整張卡片。
+                 */
+                const card = deleteButton.closest(".plan-card");
+
+                /*
+                 * 如果找不到卡片，就停止。
+                 */
+                if (card === null) {
+                    return;
+                }
+
+                /*
+                 * 顯示確認視窗。
+                 */
+                const cardTitle = card.querySelector(".card-title").textContent;
+
+                const isConfirmed = confirm(
+                    `確定要刪除「${cardTitle}」嗎？`
+                );
+
+                /*
+                 * 使用者取消時，不刪除卡片。
+                 */
+                if (isConfirmed === false) {
+                    return;
+                }
+
+                /*
+                 * 從畫面移除整張卡片。
+                 */
+                card.remove();
+            });
+        </script>
+
+</body>
+
+</html>
