@@ -23,15 +23,63 @@
             </button>
 
             <ul class="nav-links" id="navLinks">
-                <li><a class="nav-link active" href="#top">首頁</a></li>
-                <li><a class="nav-link" href="#about">關於我</a></li>
-                <li><a class="nav-link" href="#experience">工作經歷</a></li>
-                <li><a class="nav-link" href="#projects">作品集</a></li>
+
+                <!-- 自傳下拉選單 -->
+                <li class="nav-dropdown">
+                    <button type="button" class="nav-link autobiography-menu-button" id="autobiographyMenuButton"
+                        aria-expanded="false" aria-controls="autobiographyDropdown">
+
+                        自傳
+
+                        <i class="fa-solid fa-chevron-down" aria-hidden="true">
+                        </i>
+                    </button>
+
+                    <div class="autobiography-dropdown" id="autobiographyDropdown" role="menu" aria-label="選擇自傳語言">
+
+                        <button type="button" class="autobiography-dropdown-item" data-autobiography-language="zh"
+                            role="menuitem">
+
+                            <span class="autobiography-dropdown-icon">
+                                中
+                            </span>
+
+                            <span>
+                                <strong>中文自傳</strong>
+                                <small>閱讀中文版個人介紹</small>
+                            </span>
+                        </button>
+
+                        <button type="button" class="autobiography-dropdown-item" data-autobiography-language="en"
+                            role="menuitem">
+
+                            <span class="autobiography-dropdown-icon">
+                                EN
+                            </span>
+
+                            <span>
+                                <strong>English Profile</strong>
+                                <small>Read the English version</small>
+                            </span>
+                        </button>
+
+                    </div>
+                </li>
+
+                <!-- 精選作品 -->
+                <li>
+                    <a href="#projects" class="nav-link">
+                        精選作品
+                    </a>
+                </li>
+
+                <!-- 聯絡視窗 -->
                 <li>
                     <button type="button" class="nav-link contact-modal-button" id="openContactModal">
                         聯絡我
                     </button>
                 </li>
+
             </ul>
         </nav>
     </header>
@@ -567,8 +615,8 @@
                             </div>
 
                             <div class="mini-project-footer">
-                                <a href="./TermSchedule/short-middle-longTerm.html" class="mini-project-link" target="_blank"
-                                    rel="noopener noreferrer">
+                                <a href="./TermSchedule/short-middle-longTerm.html" class="mini-project-link"
+                                    target="_blank" rel="noopener noreferrer">
 
                                     查看作品
                                     <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -1279,6 +1327,1140 @@
                     if (clickedOutside) {
                         contactModal.close();
                     }
+                }
+            );
+        });
+    </script>
+    <!-- =========================
+     自傳大型閱讀視窗
+========================== -->
+    <dialog class="autobiography-modal" id="autobiographyModal" aria-labelledby="autobiographyModalTitle">
+
+        <!-- 固定在視窗上方的工具列 -->
+        <header class="autobiography-modal-header">
+
+            <div class="autobiography-modal-heading">
+                <p class="autobiography-modal-label">
+                    Autobiography
+                </p>
+
+                <h2 id="autobiographyModalTitle">
+                    中文自傳
+                </h2>
+            </div>
+
+            <div class="autobiography-modal-tools">
+
+                <!-- Modal 內也能切換語言 -->
+                <div class="autobiography-language-switch" role="group" aria-label="切換自傳語言">
+
+                    <button type="button" class="autobiography-language-button is-active" data-modal-language="zh"
+                        aria-pressed="true">
+                        中文
+                    </button>
+
+                    <button type="button" class="autobiography-language-button" data-modal-language="en"
+                        aria-pressed="false">
+                        English
+                    </button>
+
+                </div>
+
+                <button type="button" class="autobiography-modal-close" id="closeAutobiographyModal"
+                    aria-label="關閉自傳視窗">
+
+                    <i class="fa-solid fa-xmark" aria-hidden="true">
+                    </i>
+                </button>
+
+            </div>
+        </header>
+
+        <!-- 可上下捲動的自傳內容 -->
+        <div class="autobiography-modal-body">
+
+            <!-- 中文自傳 -->
+            <article class="autobiography-content" id="autobiographyZh" lang="zh-TW">
+
+                <!-- 01 關於我 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        01
+                    </span>
+
+                    <div>
+                        <h3>關於我</h3>
+
+                        <p>
+                            具備跨領域學習與工作背景，過去曾累積 6 年教育、
+                            1 年多法律行政與約 2 年生成式 AI 應用等實務經驗。
+                            這些經歷讓我培養出快速學習、系統化思考、
+                            跨部門溝通與流程規劃能力。
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 02 學生時期 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        02
+                    </span>
+
+                    <div>
+                        <h3>
+                            學生時期（2012–2020）──
+                            培養邏輯分析、跨部門溝通協作與團隊合作能力
+                        </h3>
+
+                        <p>
+                            求學期間，我先後接受哲學與法律訓練。
+                            台大哲學系的訓練培養我的邏輯思考、
+                            批判分析與問題拆解能力；政大法律系的學習，
+                            則使我建立基礎法律思維、文字表達與嚴謹分析能力。
+                        </p>
+
+                        <p>
+                            除了課業學習外，我也積極參與校園自治與大型活動籌辦，
+                            希望透過不同挑戰累積溝通協調、資源整合與團隊合作能力。
+                            曾擔任台大哲學系學會總務及松山校友會行政，
+                            負責活動規劃、行政管理及跨單位協調。
+                        </p>
+
+                        <p>
+                            2013 年擔任 Chameleon 四系聯合舞會總召時，
+                            整合哲學、大氣、戲劇及生科四系資源，
+                            在兩個月內完成活動企劃、行政流程、場地規劃及宣傳工作，
+                            並成功爭取政府補助與企業贊助，
+                            累積專案管理、資源整合及跨部門協作能力。
+                        </p>
+
+                        <p>
+                            此外，我也曾赴上海交通大學參與暑期交流課程，
+                            透過跨文化學習與國際交流拓展視野，
+                            也提升自己適應不同環境與溝通合作的能力。
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 03 教育工作 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        03
+                    </span>
+
+                    <div>
+                        <h3>
+                            教育工作（2012–2020）──
+                            從教學中建立使用者思維
+                        </h3>
+
+                        <p>
+                            求學及工作初期，我投入教育產業，
+                            擔任英文教材編輯及英文家教老師。
+                        </p>
+
+                        <p>
+                            除了教材設計之外，我也長期負責學生教學，
+                            最高曾連續三個月每週七天授課。
+                            教學過程中，我必須根據學生程度調整教材內容、
+                            安排學習進度，並與家長保持密切溝通，
+                            因此培養出良好的同理心、需求分析能力，
+                            以及清楚表達複雜概念的能力。
+                        </p>
+
+                        <p>
+                            這段經歷讓我深刻體會到，
+                            教育並不是單純傳遞知識，
+                            而是透過良好的內容設計與流程規劃，
+                            幫助學習者更有效率地理解與應用知識，
+                            也為日後投入 AI 教育產品奠定重要基礎。
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 04 法律事務所 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        04
+                    </span>
+
+                    <div>
+                        <h3>
+                            法律事務所（2022.7–2023.10）──
+                            延伸法律訓練，養成嚴謹的流程管理能力
+                        </h3>
+
+                        <p>
+                            承接政大法律系的學習背景，
+                            我之後進入萬國法律事務所擔任商標程序助理，
+                            將過去在法律訓練中培養的邏輯分析、
+                            文件理解與嚴謹思維，
+                            實際應用於商標案件與行政流程管理中。
+                        </p>
+
+                        <p>
+                            工作內容包含商標申請、案件追蹤、
+                            中英文書信往來、文件整理及行政流程控管，
+                            並協助國內外客戶與律師之間的溝通協調。
+                        </p>
+
+                        <p>
+                            法律案件十分重視細節、時效與文件正確性，
+                            因此這段經歷讓我養成重視品質、
+                            流程與時間管理的工作習慣，
+                            也累積跨部門合作、對外溝通及案件追蹤的實務經驗。
+                        </p>
+
+                        <p>
+                            我也因此更加理解，
+                            完善的流程設計能有效降低錯誤、提升效率，
+                            並讓複雜任務被清楚管理與執行。
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 05 AI Prompt 規劃師 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        05
+                    </span>
+
+                    <div>
+                        <h3>
+                            AI Prompt 規劃師（2024.3–2025.11）──
+                            從出版與教材內容延伸至 AI 應用規劃
+                        </h3>
+
+                        <p>
+                            因為對出版、教材內容與語言學習產業有興趣，
+                            我進入希伯崙股份有限公司，
+                            並在工作中接觸到生成式 AI 於教育產品中的應用。
+                        </p>
+
+                        <p>
+                            這段經歷讓我從原本熟悉的內容設計與教材規劃出發，
+                            逐步學習如何透過 Prompt Engineering、
+                            AI Workflow 與產品流程設計，
+                            將 AI 技術應用於語言學習、
+                            評分回饋與教材內容生成等情境。
+                        </p>
+
+                        <p>
+                            工作期間，我主要負責生成式 AI
+                            在教育產品中的應用規劃與內容設計。
+                            我設計 CEFR A1 至 A2 多階段兒童 AI 口說練習情境，
+                            建立 AI 學習流程，
+                            協助補習班導入生成式 AI 教學模式，
+                            提升學生練習意願與教師教學效率。
+                        </p>
+
+                        <p>
+                            除了語言學習產品之外，
+                            我也負責 AI 圖像生成優化，
+                            重新設計 Prompt 架構，
+                            使生成內容更符合教材需求，
+                            並成功導入 LiveABC 全國補習班教材。
+                        </p>
+
+                        <p>
+                            相關成果同時拓展至日本市場，
+                            包含參與日本 EIKEN 英檢教材合作，
+                            以及韓國出版社合作專案。
+                        </p>
+
+                        <p>
+                            此外，我參與設計 GEPT 初、中級複試 AI 評分系統，
+                            建立寫作與口說題型的 AI 評分邏輯、
+                            Prompt Flow 及回饋格式，
+                            使學生能快速掌握答題缺失，
+                            同時協助教師提升批改效率與評量一致性。
+                        </p>
+
+                        <p>
+                            透過上述專案，我累積 Prompt Engineering、
+                            大型語言模型（LLM）應用、需求分析、產品規劃、
+                            跨部門溝通及 AI Workflow 設計等經驗。
+                        </p>
+
+                        <p>
+                            我也逐漸發現，
+                            自己對 AI 應用如何從內容規劃走向產品功能與系統實作
+                            產生高度興趣，
+                            因此希望未來朝 AI 應用實作與軟體開發方向發展。
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 06 職業訓練 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        06
+                    </span>
+
+                    <div>
+                        <h3>
+                            職業訓練（2026.5–2026.8）──
+                            補強程式開發與 AI 應用落地能力
+                        </h3>
+
+                        <p>
+                            為了從 AI 應用規劃進一步走向實際開發，
+                            我參加勞動部勞動力發展署中彰投分署
+                            「生成式 AI 與全端程式設計班」訓練課程。
+                        </p>
+
+                        <p>
+                            課程內容包含 HTML、CSS、JavaScript、
+                            Bootstrap、jQuery 等前端基礎，
+                            也接觸 PHP、Laravel、Python、
+                            資料庫操作與 API 串接。
+                        </p>
+
+                        <p>
+                            透過課程，我逐步理解 Web 應用從介面規劃、
+                            畫面設計、資料傳遞、後端處理，
+                            到資料庫儲存的基本流程。
+                        </p>
+
+                        <p>
+                            受訓期間，我也系統性學習生成式 AI 應用、
+                            Python 程式設計、API 串接、前後端開發、
+                            資料庫操作、響應式網頁製作，
+                            以及 Figma 介面設計與原型製作基礎。
+                        </p>
+
+                        <p>
+                            這段訓練讓我補強程式設計、
+                            介面規劃與系統開發基礎，
+                            也讓我更清楚理解 AI 應用如何從概念與流程設計，
+                            進一步推進到實際功能開發。
+                        </p>
+
+                        <p>
+                            過去的工作經驗使我理解使用者需求、
+                            AI 應用情境與產品規劃；
+                            職業訓練則補足我在程式開發、API 串接、
+                            介面理解與系統實作上的基礎，
+                            讓我能朝 AI 應用工程師與軟體工程師的方向持續前進。
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 07 未來發展方向 -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        07
+                    </span>
+
+                    <div>
+                        <h3>未來發展方向</h3>
+
+                        <p>
+                            從教育、法律到 AI，
+                            看似不同的工作內容，
+                            其實都圍繞著同一件事──
+                            運用知識、流程與技術解決問題。
+                        </p>
+
+                        <p>
+                            在 AI Prompt 規劃工作的過程中，
+                            我逐漸發現自己不只希望參與 AI 產品設計，
+                            也希望更深入理解系統如何被開發，
+                            並親自參與 AI 應用的實作。
+                        </p>
+
+                        <p>
+                            因此，我透過職業訓練補強 Python、
+                            API 串接、前後端開發、資料庫操作，
+                            以及 Figma 介面設計基礎，
+                            期望從 AI 應用規劃逐步轉向軟體開發職涯。
+                        </p>
+
+                        <p>
+                            未來，我希望投入生成式 AI 應用工程師、
+                            AI 應用開發工程師、初階後端工程師
+                            或 Web 應用工程師等職位，
+                            持續深化 Python、API 串接、Laravel、
+                            資料庫、LLM 應用、AI Workflow 設計
+                            與 Web 介面實作能力。
+                        </p>
+
+                        <p>
+                            我的目標是成為一位能理解使用者需求、
+                            規劃 AI 應用流程，並具備實作能力的軟體工程師，
+                            協助團隊開發真正能落地並解決問題的 AI 產品。
+                        </p>
+                    </div>
+
+                </section>
+
+            </article>
+
+            <!-- 英文自傳 -->
+            <article class="autobiography-content" id="autobiographyEn" lang="en" hidden>
+
+                <!-- 01 About Me -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        01
+                    </span>
+
+                    <div>
+                        <h3>About Me</h3>
+
+                        <p>
+                            I have an interdisciplinary academic and professional
+                            background, with six years of experience in education,
+                            over one year in legal administration, and approximately
+                            two years in generative AI applications.
+                        </p>
+
+                        <p>
+                            These experiences have strengthened my ability to learn
+                            quickly, think systematically, communicate across
+                            departments, and design effective workflows.
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 02 Student Years -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        02
+                    </span>
+
+                    <div>
+                        <h3>
+                            Student Years (2012–2020) —
+                            Developing Logical Analysis, Communication,
+                            and Teamwork Skills
+                        </h3>
+
+                        <p>
+                            During my university years, I received academic training
+                            in both philosophy and law. My studies in philosophy at
+                            National Taiwan University developed my logical thinking,
+                            critical analysis, and problem-decomposition skills.
+                        </p>
+
+                        <p>
+                            My legal education at National Chengchi University helped
+                            me establish a foundation in legal reasoning, precise
+                            written communication, and rigorous analysis.
+                        </p>
+
+                        <p>
+                            In addition to my academic studies, I actively participated
+                            in student organizations and large-scale event planning.
+                            Through these activities, I developed practical experience
+                            in communication, coordination, resource integration,
+                            and teamwork.
+                        </p>
+
+                        <p>
+                            I served as Treasurer of the Department of Philosophy
+                            Student Association at National Taiwan University and
+                            handled administrative work for the Songshan Alumni
+                            Association. My responsibilities included event planning,
+                            administrative management, and coordination between
+                            different organizations.
+                        </p>
+
+                        <p>
+                            In 2013, I served as the chief coordinator of the Chameleon
+                            Joint Department Dance. I integrated resources from the
+                            departments of Philosophy, Atmospheric Sciences, Drama
+                            and Theatre, and Life Science.
+                        </p>
+
+                        <p>
+                            Within two months, I led the completion of the event proposal,
+                            administrative procedures, venue planning, and promotional
+                            activities. I also successfully secured government funding
+                            and corporate sponsorship.
+                        </p>
+
+                        <p>
+                            This experience strengthened my project management,
+                            resource integration, and cross-departmental collaboration
+                            skills.
+                        </p>
+
+                        <p>
+                            I also participated in a summer exchange program at
+                            Shanghai Jiao Tong University. The experience expanded
+                            my international perspective and improved my ability to
+                            adapt and communicate in a cross-cultural environment.
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 03 Education Experience -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        03
+                    </span>
+
+                    <div>
+                        <h3>
+                            Education Experience (2012–2020) —
+                            Developing a User-Centered Mindset through Teaching
+                        </h3>
+
+                        <p>
+                            During my studies and the early stage of my career,
+                            I worked in the education industry as an English
+                            educational materials editor and private English tutor.
+                        </p>
+
+                        <p>
+                            In addition to developing educational content, I taught
+                            students over an extended period. At my busiest point,
+                            I taught seven days a week for three consecutive months.
+                        </p>
+
+                        <p>
+                            I adjusted teaching materials according to each student's
+                            proficiency, planned learning schedules, and maintained
+                            close communication with parents.
+                        </p>
+
+                        <p>
+                            These responsibilities helped me develop empathy,
+                            requirement-analysis skills, and the ability to explain
+                            complex concepts in a clear and understandable way.
+                        </p>
+
+                        <p>
+                            This experience taught me that education is not simply
+                            about delivering knowledge. Effective content design
+                            and workflow planning are essential for helping learners
+                            understand and apply knowledge efficiently.
+                        </p>
+
+                        <p>
+                            This user-centered perspective later became an important
+                            foundation for my work on AI-powered educational products.
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 04 Law Firm Experience -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        04
+                    </span>
+
+                    <div>
+                        <h3>
+                            Law Firm Experience (July 2022–October 2023) —
+                            Building Rigorous Workflow Management Skills
+                        </h3>
+
+                        <p>
+                            Building on my legal education at National Chengchi
+                            University, I joined Formosa Transnational Attorneys at Law
+                            as a trademark procedure assistant.
+                        </p>
+
+                        <p>
+                            In this role, I applied the logical analysis, document
+                            comprehension, and attention to detail developed through
+                            my legal training to trademark cases and administrative
+                            workflow management.
+                        </p>
+
+                        <p>
+                            My responsibilities included trademark applications,
+                            case tracking, Chinese and English correspondence,
+                            document organization, and administrative process control.
+                        </p>
+
+                        <p>
+                            I also assisted with communication and coordination
+                            between domestic and international clients and attorneys.
+                        </p>
+
+                        <p>
+                            Legal cases require a high level of accuracy, timeliness,
+                            and document quality. This experience helped me develop
+                            disciplined habits in quality management, workflow control,
+                            and time management.
+                        </p>
+
+                        <p>
+                            It also gave me practical experience in cross-departmental
+                            collaboration, external communication, and case tracking.
+                        </p>
+
+                        <p>
+                            Through this role, I gained a deeper understanding of how
+                            well-designed workflows can reduce errors, improve efficiency,
+                            and make complex tasks easier to manage and execute.
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 05 AI Prompt Strategist -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        05
+                    </span>
+
+                    <div>
+                        <h3>
+                            AI Prompt Strategist (March 2024–November 2025) —
+                            Extending Educational Content Experience into
+                            AI Application Planning
+                        </h3>
+
+                        <p>
+                            Because of my interest in publishing, educational content,
+                            and language-learning products, I joined Hebron Soft Limited,
+                            where I began working with generative AI applications
+                            in educational products.
+                        </p>
+
+                        <p>
+                            Building on my previous experience in content design
+                            and educational material planning, I gradually learned
+                            how to apply Prompt Engineering, AI workflows, and product
+                            process design to language learning, automated assessment,
+                            feedback generation, and educational content creation.
+                        </p>
+
+                        <p>
+                            My primary responsibilities included planning generative
+                            AI applications and designing content for educational
+                            products.
+                        </p>
+
+                        <p>
+                            I designed multi-stage AI speaking practice scenarios
+                            for children at CEFR A1 to A2 levels and established
+                            structured AI-assisted learning workflows.
+                        </p>
+
+                        <p>
+                            I also supported the implementation of generative AI
+                            teaching models in language schools, helping increase
+                            students' willingness to practice and improve teachers'
+                            instructional efficiency.
+                        </p>
+
+                        <p>
+                            In addition to language-learning products, I was responsible
+                            for optimizing AI image generation. I redesigned prompt
+                            structures to produce visual content that better matched
+                            educational material requirements.
+                        </p>
+
+                        <p>
+                            The optimized image-generation process was successfully
+                            introduced into LiveABC educational materials used by
+                            language schools across Taiwan.
+                        </p>
+
+                        <p>
+                            The work was later expanded to international projects,
+                            including collaboration on Japanese EIKEN preparation
+                            materials and projects with a Korean publishing company.
+                        </p>
+
+                        <p>
+                            I also participated in the design of an AI assessment
+                            system for the intermediate and high-intermediate stages
+                            of the General English Proficiency Test (GEPT).
+                        </p>
+
+                        <p>
+                            I helped establish AI scoring logic, Prompt Flows,
+                            and feedback formats for writing and speaking tasks.
+                            The system allowed students to identify weaknesses
+                            more quickly while helping teachers improve grading
+                            efficiency and assessment consistency.
+                        </p>
+
+                        <p>
+                            Through these projects, I gained practical experience
+                            in Prompt Engineering, large language model applications,
+                            requirement analysis, product planning, cross-departmental
+                            communication, and AI workflow design.
+                        </p>
+
+                        <p>
+                            I also became increasingly interested in how AI applications
+                            could move beyond content planning and become functional
+                            software products.
+                        </p>
+
+                        <p>
+                            This realization motivated me to pursue a future career
+                            in AI application development and software engineering.
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 06 Vocational Training -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        06
+                    </span>
+
+                    <div>
+                        <h3>
+                            Vocational Training (May 2026–August 2026) —
+                            Strengthening Software Development and
+                            AI Implementation Skills
+                        </h3>
+
+                        <p>
+                            To move from AI application planning toward practical
+                            software development, I enrolled in the Generative AI
+                            and Full-Stack Programming Training Program provided
+                            by the Taichung-Changhua-Nantou Regional Branch of
+                            Taiwan's Workforce Development Agency.
+                        </p>
+
+                        <p>
+                            The program covered front-end technologies including
+                            HTML, CSS, JavaScript, Bootstrap, and jQuery.
+                            I also studied PHP, Laravel, Python, database operations,
+                            and API integration.
+                        </p>
+
+                        <p>
+                            Through the training, I gradually developed an understanding
+                            of the complete workflow of a Web application, from interface
+                            planning and visual design to data transmission, back-end
+                            processing, and database storage.
+                        </p>
+
+                        <p>
+                            I also systematically studied generative AI applications,
+                            Python programming, API integration, front-end and back-end
+                            development, database operations, responsive Web design,
+                            and the fundamentals of interface design and prototyping
+                            with Figma.
+                        </p>
+
+                        <p>
+                            This training strengthened my foundation in programming,
+                            interface planning, and system development.
+                        </p>
+
+                        <p>
+                            It also gave me a clearer understanding of how an AI
+                            application can progress from an initial concept and
+                            workflow design to the implementation of functional
+                            software features.
+                        </p>
+
+                        <p>
+                            My previous professional experience helped me understand
+                            user requirements, AI application scenarios, and product
+                            planning.
+                        </p>
+
+                        <p>
+                            The vocational training complemented this background
+                            by strengthening my skills in software development,
+                            API integration, interface implementation, and system
+                            development.
+                        </p>
+
+                        <p>
+                            Together, these experiences have prepared me to continue
+                            developing toward a career as an AI application engineer
+                            and software engineer.
+                        </p>
+                    </div>
+
+                </section>
+
+                <!-- 07 Career Direction -->
+                <section class="autobiography-section">
+
+                    <span class="autobiography-section-number">
+                        07
+                    </span>
+
+                    <div>
+                        <h3>Future Career Direction</h3>
+
+                        <p>
+                            Education, law, and AI may appear to be unrelated fields,
+                            but my work in each of them has centered on the same goal:
+                            using knowledge, workflows, and technology to solve
+                            practical problems.
+                        </p>
+
+                        <p>
+                            While working as an AI Prompt Strategist, I realized that
+                            I did not only want to participate in AI product planning.
+                            I also wanted to understand how systems are developed
+                            and contribute directly to the implementation of AI
+                            applications.
+                        </p>
+
+                        <p>
+                            I therefore strengthened my foundation in Python,
+                            API integration, front-end and back-end development,
+                            database operations, and Figma interface design through
+                            vocational training.
+                        </p>
+
+                        <p>
+                            My goal is to gradually transition from AI application
+                            planning into a software development career.
+                        </p>
+
+                        <p>
+                            In the future, I hope to pursue opportunities as a
+                            generative AI application engineer, AI application
+                            developer, junior back-end engineer, or Web application
+                            engineer.
+                        </p>
+
+                        <p>
+                            I plan to continue developing my skills in Python,
+                            API integration, Laravel, databases, large language model
+                            applications, AI workflow design, and Web interface
+                            implementation.
+                        </p>
+
+                        <p>
+                            My long-term goal is to become a software engineer
+                            who can understand user requirements, plan effective
+                            AI application workflows, and implement practical
+                            software solutions.
+                        </p>
+
+                        <p>
+                            I hope to contribute to teams by developing AI products
+                            that can be deployed in real-world environments and
+                            solve meaningful problems.
+                        </p>
+                    </div>
+
+                </section>
+
+            </article>
+
+        </div>
+    </dialog>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            /*
+             * 取得自傳下拉選單相關元素。
+             */
+            const autobiographyMenuButton =
+                document.getElementById("autobiographyMenuButton");
+
+            const autobiographyDropdown =
+                document.getElementById("autobiographyDropdown");
+
+            const navDropdown =
+                autobiographyMenuButton?.closest(".nav-dropdown");
+
+            const autobiographyDropdownItems =
+                document.querySelectorAll(
+                    "[data-autobiography-language]"
+                );
+
+            /*
+             * 取得大型自傳視窗相關元素。
+             */
+            const autobiographyModal =
+                document.getElementById("autobiographyModal");
+
+            const closeAutobiographyModalButton =
+                document.getElementById("closeAutobiographyModal");
+
+            const autobiographyModalTitle =
+                document.getElementById("autobiographyModalTitle");
+
+            const autobiographyZh =
+                document.getElementById("autobiographyZh");
+
+            const autobiographyEn =
+                document.getElementById("autobiographyEn");
+
+            const autobiographyModalBody =
+                autobiographyModal?.querySelector(
+                    ".autobiography-modal-body"
+                );
+
+            const autobiographyLanguageButtons =
+                document.querySelectorAll("[data-modal-language]");
+
+            /*
+             * 如果必要的 HTML 元素不存在，就停止執行，
+             * 避免 JavaScript 報錯影響其他功能。
+             */
+            if (
+                !autobiographyMenuButton ||
+                !autobiographyDropdown ||
+                !navDropdown ||
+                !autobiographyModal ||
+                !closeAutobiographyModalButton ||
+                !autobiographyModalTitle ||
+                !autobiographyZh ||
+                !autobiographyEn
+            ) {
+                console.warn("找不到完整的自傳功能 HTML 元素。");
+                return;
+            }
+
+            /*
+             * 關閉導覽列的自傳下拉選單。
+             */
+            function closeAutobiographyDropdown() {
+                navDropdown.classList.remove("is-open");
+
+                autobiographyMenuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            }
+
+            /*
+             * 開啟導覽列的自傳下拉選單。
+             */
+            function openAutobiographyDropdown() {
+                navDropdown.classList.add("is-open");
+
+                autobiographyMenuButton.setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
+            }
+
+            /*
+             * 切換中文／英文自傳。
+             *
+             * language：
+             * zh = 中文
+             * en = 英文
+             */
+            function setAutobiographyLanguage(language) {
+                const isChinese = language === "zh";
+
+                /*
+                 * 使用 hidden 控制兩份內容的顯示狀態。
+                 */
+                autobiographyZh.hidden = !isChinese;
+                autobiographyEn.hidden = isChinese;
+
+                /*
+                 * 改變視窗標題。
+                 */
+                autobiographyModalTitle.textContent =
+                    isChinese
+                        ? "中文自傳"
+                        : "English Profile";
+
+                /*
+                 * 更新 Modal 內語言切換按鈕狀態。
+                 */
+                autobiographyLanguageButtons.forEach(
+                    function (button) {
+                        const isActive =
+                            button.dataset.modalLanguage === language;
+
+                        button.classList.toggle(
+                            "is-active",
+                            isActive
+                        );
+
+                        button.setAttribute(
+                            "aria-pressed",
+                            String(isActive)
+                        );
+                    }
+                );
+
+                /*
+                 * 切換語言後，將內容捲動回最上方。
+                 */
+                if (autobiographyModalBody) {
+                    autobiographyModalBody.scrollTop = 0;
+                }
+            }
+
+            /*
+             * 以指定語言開啟自傳視窗。
+             */
+            function openAutobiographyModal(language) {
+                setAutobiographyLanguage(language);
+
+                closeAutobiographyDropdown();
+
+                if (!autobiographyModal.open) {
+                    autobiographyModal.showModal();
+                }
+            }
+
+            /*
+             * 點擊導覽列「自傳」：
+             * 已展開就收合，未展開就開啟。
+             */
+            autobiographyMenuButton.addEventListener(
+                "click",
+                function () {
+                    const isOpen =
+                        navDropdown.classList.contains("is-open");
+
+                    if (isOpen) {
+                        closeAutobiographyDropdown();
+                    } else {
+                        openAutobiographyDropdown();
+                    }
+                }
+            );
+
+            /*
+             * 點擊下拉選單中的中文／英文選項。
+             */
+            autobiographyDropdownItems.forEach(
+                function (item) {
+                    item.addEventListener(
+                        "click",
+                        function () {
+                            const selectedLanguage =
+                                item.dataset.autobiographyLanguage;
+
+                            if (
+                                selectedLanguage !== "zh" &&
+                                selectedLanguage !== "en"
+                            ) {
+                                return;
+                            }
+
+                            openAutobiographyModal(
+                                selectedLanguage
+                            );
+                        }
+                    );
+                }
+            );
+
+            /*
+             * 點擊 Modal 內的中文／English 按鈕。
+             */
+            autobiographyLanguageButtons.forEach(
+                function (button) {
+                    button.addEventListener(
+                        "click",
+                        function () {
+                            const selectedLanguage =
+                                button.dataset.modalLanguage;
+
+                            if (
+                                selectedLanguage !== "zh" &&
+                                selectedLanguage !== "en"
+                            ) {
+                                return;
+                            }
+
+                            setAutobiographyLanguage(
+                                selectedLanguage
+                            );
+                        }
+                    );
+                }
+            );
+
+            /*
+             * 點擊右上角叉號關閉 Modal。
+             */
+            closeAutobiographyModalButton.addEventListener(
+                "click",
+                function () {
+                    autobiographyModal.close();
+                }
+            );
+
+            /*
+             * 點擊自傳下拉選單外部時收合選單。
+             */
+            document.addEventListener(
+                "click",
+                function (event) {
+                    if (!navDropdown.contains(event.target)) {
+                        closeAutobiographyDropdown();
+                    }
+                }
+            );
+
+            /*
+             * 點擊 Modal 外側遮罩時關閉視窗。
+             */
+            autobiographyModal.addEventListener(
+                "click",
+                function (event) {
+                    const modalRect =
+                        autobiographyModal.getBoundingClientRect();
+
+                    const clickedOutside =
+                        event.clientX < modalRect.left ||
+                        event.clientX > modalRect.right ||
+                        event.clientY < modalRect.top ||
+                        event.clientY > modalRect.bottom;
+
+                    if (clickedOutside) {
+                        autobiographyModal.close();
+                    }
+                }
+            );
+
+            /*
+             * 按下 Esc 時先收合下拉選單。
+             *
+             * 原生 dialog 會自動處理 Esc 關閉 Modal。
+             */
+            document.addEventListener(
+                "keydown",
+                function (event) {
+                    if (event.key === "Escape") {
+                        closeAutobiographyDropdown();
+                    }
+                }
+            );
+
+            /*
+             * Modal 關閉後，將焦點送回導覽列的自傳按鈕，
+             * 方便鍵盤使用者繼續操作。
+             */
+            autobiographyModal.addEventListener(
+                "close",
+                function () {
+                    autobiographyMenuButton.focus();
                 }
             );
         });

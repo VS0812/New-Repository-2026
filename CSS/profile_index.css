@@ -2040,7 +2040,443 @@ a.contact-modal-item:hover {
     font-size: 12px;
 }
 
+/* =========================
+   導覽列：自傳下拉選單
+========================= */
+.nav-dropdown {
+    position: relative;
+}
 
+/* 自傳按鈕 */
+.autobiography-menu-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    appearance: none;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+}
+
+.autobiography-menu-button i {
+    font-size: 11px;
+    transition: transform 0.22s ease;
+}
+
+/* 展開時箭頭向上 */
+.nav-dropdown.is-open .autobiography-menu-button i {
+    transform: rotate(180deg);
+}
+
+/* 下拉選單 */
+.autobiography-dropdown {
+    position: absolute;
+    top: calc(100% - 7px);
+    right: 0;
+    z-index: 120;
+
+    width: 270px;
+    padding: 9px;
+
+    background-color: #fffdf9;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow:
+        0 18px 42px rgba(23, 41, 68, 0.15);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform: translateY(8px);
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease,
+        transform 0.2s ease;
+}
+
+/* 開啟下拉選單 */
+.nav-dropdown.is-open .autobiography-dropdown {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+/* 下拉選項 */
+.autobiography-dropdown-item {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 42px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px;
+
+    background: transparent;
+    color: var(--text-main);
+
+    border: 0;
+    border-radius: 10px;
+
+    text-align: left;
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.autobiography-dropdown-item:hover,
+.autobiography-dropdown-item:focus-visible {
+    background-color: var(--accent-soft);
+    transform: translateX(2px);
+}
+
+.autobiography-dropdown-item:focus-visible {
+    outline: 3px solid rgba(206, 111, 60, 0.22);
+    outline-offset: 1px;
+}
+
+/* 中／EN 圖示 */
+.autobiography-dropdown-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    background-color: #ffffff;
+    color: var(--accent);
+
+    border: 1px solid #edc8b3;
+    border-radius: 10px;
+
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.autobiography-dropdown-item strong {
+    display: block;
+    margin-bottom: 2px;
+
+    color: var(--text-main);
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.autobiography-dropdown-item small {
+    display: block;
+
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   大型自傳彈跳視窗
+========================= */
+.autobiography-modal {
+    width: min(960px, calc(100% - 48px));
+    height: min(820px, 86vh);
+    max-width: none;
+    max-height: none;
+
+    padding: 0;
+    overflow: hidden;
+
+    background-color: #fffdf9;
+    color: var(--text-main);
+
+    border: 1px solid var(--border);
+    border-radius: 22px;
+
+    box-shadow:
+        0 30px 80px rgba(23, 41, 68, 0.25);
+}
+
+/* 未開啟時確實隱藏 */
+.autobiography-modal:not([open]) {
+    display: none;
+}
+
+/* 背景遮罩 */
+.autobiography-modal::backdrop {
+    background-color: rgba(23, 29, 38, 0.56);
+    backdrop-filter: blur(4px);
+}
+
+/* 視窗開啟動畫 */
+.autobiography-modal[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+
+    animation: autobiographyModalOpen 0.22s ease-out;
+}
+
+@keyframes autobiographyModalOpen {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* =========================
+   自傳視窗頂部工具列
+========================= */
+.autobiography-modal-header {
+    position: relative;
+    z-index: 5;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    padding: 22px 28px;
+
+    background-color: rgba(255, 253, 249, 0.97);
+    border-bottom: 1px solid #eee3da;
+    box-shadow:
+        0 5px 16px rgba(83, 61, 48, 0.05);
+}
+
+.autobiography-modal-heading {
+    min-width: 0;
+}
+
+.autobiography-modal-label {
+    margin: 0 0 2px;
+
+    color: var(--accent);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 700;
+}
+
+.autobiography-modal-heading h2 {
+    margin: 0;
+
+    color: var(--navy);
+    font-size: 27px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+/* 右側工具 */
+.autobiography-modal-tools {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 14px;
+}
+
+
+/* =========================
+   中英文切換按鈕
+========================= */
+.autobiography-language-switch {
+    display: inline-flex;
+    padding: 4px;
+
+    background-color: #f5eee8;
+    border: 1px solid #e8dbd0;
+    border-radius: 999px;
+}
+
+.autobiography-language-button {
+    min-height: 34px;
+    padding: 6px 15px;
+
+    background: transparent;
+    color: var(--text-muted);
+
+    border: 0;
+    border-radius: 999px;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.autobiography-language-button:hover {
+    color: var(--accent-dark);
+}
+
+.autobiography-language-button.is-active {
+    background-color: #ffffff;
+    color: var(--accent-dark);
+
+    box-shadow:
+        0 4px 10px rgba(83, 61, 48, 0.09);
+}
+
+.autobiography-language-button:focus-visible {
+    outline: 3px solid rgba(206, 111, 60, 0.24);
+    outline-offset: 2px;
+}
+
+
+/* =========================
+   關閉按鈕
+========================= */
+.autobiography-modal-close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 40px;
+    height: 40px;
+
+    background-color: #ffffff;
+    color: var(--text-muted);
+
+    border: 1px solid var(--border);
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.autobiography-modal-close:hover {
+    background-color: var(--navy);
+    color: #ffffff;
+    border-color: var(--navy);
+    transform: rotate(5deg);
+}
+
+.autobiography-modal-close:focus-visible {
+    outline: 3px solid rgba(206, 111, 60, 0.25);
+    outline-offset: 3px;
+}
+
+
+/* =========================
+   自傳內容捲動區
+========================= */
+.autobiography-modal-body {
+    min-height: 0;
+    overflow-y: auto;
+
+    padding: 34px 42px 44px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d7a387 transparent;
+}
+
+.autobiography-modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.autobiography-modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.autobiography-modal-body::-webkit-scrollbar-thumb {
+    background-color: #d7a387;
+    border-radius: 999px;
+}
+
+
+/* =========================
+   中文／英文自傳內容
+========================= */
+.autobiography-content {
+    max-width: 790px;
+    margin: 0 auto;
+}
+
+/* hidden 必須真正隱藏 */
+.autobiography-content[hidden] {
+    display: none;
+}
+
+/* 每一段內容 */
+.autobiography-section {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 20px;
+
+    padding: 24px 0;
+
+    border-bottom: 1px solid #eee3da;
+}
+
+.autobiography-section:first-child {
+    padding-top: 0;
+}
+
+.autobiography-section:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+/* 段落編號 */
+.autobiography-section-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    background-color: var(--accent-soft);
+    color: var(--accent-dark);
+
+    border: 1px solid #edc8b3;
+    border-radius: 12px;
+
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* 內容標題 */
+.autobiography-section h3 {
+    margin: 2px 0 10px;
+
+    color: var(--navy);
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+/* 自傳內文 */
+.autobiography-section p {
+    margin: 0;
+
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.95;
+    text-align: justify;
+}
+
+
+/* 英文內容避免過度拉開字距 */
+.autobiography-content[lang="en"] .autobiography-section p {
+    text-align: left;
+}
 
 /* 響應式 */
 @media (max-width: 1199px) {
@@ -2147,6 +2583,47 @@ a.contact-modal-item:hover {
 
     .mini-project-card {
         min-height: 380px;
+    }
+
+    .autobiography-dropdown {
+        position: static;
+
+        width: 100%;
+        margin-top: 2px;
+        padding: 6px;
+
+        background-color: #fbf7f2;
+        border: 0;
+        box-shadow: none;
+
+        display: none;
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+
+        transform: none;
+    }
+
+    .nav-dropdown.is-open .autobiography-dropdown {
+        display: block;
+    }
+
+    .autobiography-menu-button {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .autobiography-dropdown-item {
+        padding: 10px;
+    }
+
+    .autobiography-modal {
+        width: calc(100% - 32px);
+        height: min(820px, calc(100vh - 32px));
+    }
+
+    .autobiography-modal-body {
+        padding: 30px 30px 38px;
     }
 
 }
@@ -2492,5 +2969,67 @@ a.contact-modal-item:hover {
 
     .contact-modal-list {
         padding: 12px 20px 22px;
+    }
+
+    .autobiography-modal {
+        width: calc(100% - 16px);
+        height: calc(100vh - 16px);
+
+        border-radius: 16px;
+    }
+
+    .autobiography-modal-header {
+        align-items: flex-start;
+        padding: 18px 16px;
+    }
+
+    .autobiography-modal-heading h2 {
+        font-size: 22px;
+    }
+
+    .autobiography-modal-tools {
+        gap: 8px;
+    }
+
+    .autobiography-language-switch {
+        padding: 3px;
+    }
+
+    .autobiography-language-button {
+        min-height: 32px;
+        padding: 5px 10px;
+        font-size: 11px;
+    }
+
+    .autobiography-modal-close {
+        width: 36px;
+        height: 36px;
+    }
+
+    .autobiography-modal-body {
+        padding: 24px 18px 32px;
+    }
+
+    .autobiography-section {
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 13px;
+        padding: 20px 0;
+    }
+
+    .autobiography-section-number {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        font-size: 12px;
+    }
+
+    .autobiography-section h3 {
+        margin-top: 0;
+        font-size: 18px;
+    }
+
+    .autobiography-section p {
+        font-size: 14px;
+        line-height: 1.85;
     }
 }
