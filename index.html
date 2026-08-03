@@ -75,7 +75,7 @@
 
                 <!-- 聯絡視窗 -->
                 <li>
-                    <button type="button" class="nav-link contact-modal-button" id="openContactModal">
+                    <button type="button" class="nav-link contact-modal-button js-open-contact-modal">
                         聯絡我
                     </button>
                 </li>
@@ -104,7 +104,7 @@
                             擅長將使用者需求轉化為可執行的解決方案，並以專案管理思維推動落地。
                         </p>
                         <p class="pro-hero-text">
-                            持續精進 前端、後端Laravel、Python、API 串接與資料庫等技術。
+                            持續精進 前端、後端Laravel、Figma、API 串接與資料庫等技術。
                         </p>
 
 
@@ -124,10 +124,11 @@
                                     查看我的作品
                                 </a>
 
-                                <a href="#contact" class="pro-btn pro-btn-secondary">
+                                <button type="button" class="pro-btn pro-btn-secondary js-open-contact-modal">
                                     <i class="fa-regular fa-envelope"></i>
                                     聯絡我
-                                </a>
+                                </button>
+
                             </div>
 
                             <div class="pro-social-row">
@@ -1272,42 +1273,31 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const contactModal =
-                document.getElementById("contactModal");
 
-            const openContactModalButton =
-                document.getElementById("openContactModal");
+            // 取得所有負責開啟聯絡視窗的按鈕
+            const openContactModalButtons = document.querySelectorAll(
+                ".js-open-contact-modal"
+            );
 
-            const closeContactModalButton =
-                document.getElementById("closeContactModal");
+            // 取得聯絡視窗
+            const contactModal = document.querySelector("#contactModal");
 
-            if (
-                !contactModal ||
-                !openContactModalButton ||
-                !closeContactModalButton
-            ) {
-                return;
-            }
+            // 取得關閉按鈕
+            const closeContactModalButton = document.querySelector(
+                "#closeContactModal"
+            );
 
-            /*
-             * 點擊導覽列的「聯絡我」後開啟視窗。
-             */
-            openContactModalButton.addEventListener(
-                "click",
-                function () {
+            // 替所有聯絡按鈕加入點擊事件
+            openContactModalButtons.forEach(function (button) {
+                button.addEventListener("click", function () {
                     contactModal.showModal();
-                }
-            );
+                });
+            });
 
-            /*
-             * 點擊右上角叉號後關閉視窗。
-             */
-            closeContactModalButton.addEventListener(
-                "click",
-                function () {
-                    contactModal.close();
-                }
-            );
+            // 關閉聯絡視窗
+            closeContactModalButton.addEventListener("click", function () {
+                contactModal.close();
+            });
 
             /*
              * 點擊視窗外部的黑色遮罩也能關閉。

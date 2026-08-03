@@ -6,89 +6,674 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>短期－中期－長期規劃</title>
+    <title>短期・中期・長期規劃</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
-        body {
-            background-color: #f5f5f5;
+        :root {
+            --page-bg: #f4f7fb;
+            --panel-bg: #ffffff;
+            --text-color: #212529;
+            --muted-color: #6c7684;
+            --border-color: #dce3ec;
+
+            --short-color: #19ae6b;
+            --short-light: #f0fbf5;
+
+            --medium-color: #ff970f;
+            --medium-light: #fff8ed;
+
+            --long-color: #8057e8;
+            --long-light: #f7f3ff;
         }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text-color);
+            background: var(--page-bg);
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                "Noto Sans TC",
+                sans-serif;
+        }
+
+        button,
+        input,
+        textarea {
+            font: inherit;
+        }
+
+        .planning-page {
+            width: min(1440px, calc(100% - 32px));
+            margin: 16px auto;
+            padding: 38px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 10px 35px rgba(34, 52, 75, 0.08);
+        }
+
+        /* =========================
+           頁面標題
+        ========================= */
+
+        .page-header {
+            margin-bottom: 36px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            margin-bottom: 14px;
+            font-size: clamp(32px, 4vw, 52px);
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: var(--muted-color);
+            font-size: 18px;
+        }
+
+        /* =========================
+           新增目標表單
+        ========================= */
+
+        .goal-form-panel {
+            position: relative;
+            margin-bottom: 0px;
+            padding: 34px 30px 24px;
+            overflow: hidden;
+            border: 1px solid rgba(213, 220, 230, 0.9);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 8px 25px rgba(36, 55, 78, 0.1);
+        }
+
+        .period-section {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .field-title {
+            margin: 0;
+            font-weight: 800;
+        }
+
+        .period-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .period-radio {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .period-label {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            min-width: 150px;
+            min-height: 54px;
+            padding: 12px 22px;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: #ffffff;
+            font-weight: 700;
+            transition:
+                border-color 0.2s ease,
+                color 0.2s ease,
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .period-label:hover {
+            border-color: #9cbcf7;
+        }
+
+        .period-radio:focus-visible+.period-label {
+            outline: 3px solid rgba(13, 110, 253, 0.2);
+        }
+
+        .period-radio:checked+.period-label {
+            color: #0d6efd;
+            border-color: #0d6efd;
+            background: #f4f8ff;
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.08);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px 28px;
+        }
+
+        .form-field {
+            min-width: 0;
+        }
+
+        .form-field-full {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            margin-bottom: 9px;
+            font-weight: 700;
+        }
+
+        .optional-text {
+            color: var(--muted-color);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            min-height: 52px;
+            border-color: var(--border-color);
+            border-radius: 9px;
+            background: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #8ab4ff;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+        }
+
+        .form-error {
+            display: none;
+            margin-top: 7px;
+            color: #dc3545;
+            font-size: 14px;
+        }
+
+        .form-error.show {
+            display: block;
+        }
+
+        .form-bottom {
+            display: flex;
+        }
+
+        .form-submit-row {
+            display: flex;
+            justify-content: center;
+            margin-top: 28px;
+        }
+
+        .add-goal-btn {
+            min-width: 190px;
+            min-height: 54px;
+            padding: 12px 26px;
+            border: 0;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: 0 8px 18px rgba(13, 110, 253, 0.2);
+        }
+
+        .form-tip {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+            padding: 14px 16px;
+            color: var(--muted-color);
+            border-radius: 9px;
+            background: #f8fafc;
+        }
+
+        .form-tip i {
+            color: #f0ae17;
+            font-size: 22px;
+        }
+
+        /* =========================
+           三欄規劃區
+        ========================= */
 
         .planning-board {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .plan-row {
             display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 24px;
-            align-items: stretch;
-
-            padding: 24px;
-            border-radius: 12px;
-            background-color: #ffffff;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
         }
 
-        .plan-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-
+        .plan-column {
+            min-width: 0;
+            min-height: 590px;
             padding: 20px;
-            border-right: 1px solid #dddddd;
+            border: 1px solid rgba(220, 227, 236, 0.8);
+            border-radius: 16px;
+        }
+
+        .short-column {
+            background: linear-gradient(180deg,
+                    var(--short-light),
+                    rgba(255, 255, 255, 0.95));
+        }
+
+        .medium-column {
+            background: linear-gradient(180deg,
+                    var(--medium-light),
+                    rgba(255, 255, 255, 0.95));
+        }
+
+        .long-column {
+            background: linear-gradient(180deg,
+                    var(--long-light),
+                    rgba(255, 255, 255, 0.95));
+        }
+
+        .column-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .column-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 6px;
+        }
+
+        .column-title h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .column-title i {
+            font-size: 30px;
+        }
+
+        .short-column .column-title i {
+            color: var(--short-color);
+        }
+
+        .medium-column .column-title i {
+            color: var(--medium-color);
+        }
+
+        .long-column .column-title i {
+            color: var(--long-color);
+        }
+
+        .column-subtitle {
+            margin: 0;
+            color: var(--muted-color);
+        }
+
+        /* .drop-zone-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 58px;
+            margin-bottom: 18px;
+            padding: 12px;
+            color: var(--muted-color);
+            border: 2px dashed;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.38);
+        } */
+
+        .short-column .drop-zone-title {
+            border-color: rgba(25, 174, 107, 0.35);
+        }
+
+        .medium-column .drop-zone-title {
+            border-color: rgba(255, 151, 15, 0.38);
+        }
+
+        .long-column .drop-zone-title {
+            border-color: rgba(128, 87, 232, 0.35);
         }
 
         .plan-list {
-            display: flex;
-            flex-wrap: wrap;
-            align-content: flex-start;
-            gap: 12px;
-
-            min-height: 180px;
-            padding: 14px;
-
-            border: 2px dashed #cccccc;
-            border-radius: 10px;
+            min-height: 430px;
         }
 
+        /* =========================
+           小卡片
+        ========================= */
+
         .plan-card {
-            width: calc(33.333% - 8px);
-            margin-bottom: 0;
+            margin-bottom: 14px;
             cursor: grab;
+            border: 1px solid #e2e7ee;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 4px 13px rgba(37, 55, 77, 0.1);
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 18px rgba(37, 55, 77, 0.14);
         }
 
         .plan-card:active {
             cursor: grabbing;
         }
 
-        /* 正在拖曳時，原位置的卡片樣式 */
+        .plan-card.completed {
+            opacity: 0.72;
+        }
+
+        .plan-card.completed .card-title,
+        .plan-card.completed .card-text {
+            text-decoration: line-through;
+        }
+
+        .plan-card .card-body {
+            padding: 17px;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card-title {
+            margin: 0;
+            overflow-wrap: anywhere;
+            font-size: 22px;
+            font-weight: 800;
+            color: #0d4d7c;
+        }
+
+        .card-text {
+            margin: 8px 0 16px;
+            color: #0d1219;
+            overflow-wrap: anywhere;
+            line-height: 1.55;
+            font-size: 15px;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .deadline-text {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #526071;
+            font-size: 14px;
+        }
+
+        .status-badge {
+            flex: 0 0 auto;
+            padding: 6px 10px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status-pending {
+            color: #2388e8;
+            background: #eaf4ff;
+        }
+
+        .status-progress {
+            color: #169d5d;
+            background: #e7f8ef;
+        }
+
+        .status-completed {
+            color: #68727f;
+            background: #e9edf2;
+        }
+
+        .card-menu-btn {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border: 0;
+            border-radius: 8px;
+            background: transparent;
+        }
+
+        .card-menu-btn:hover {
+            background: #f1f4f8;
+        }
+
+        .dropdown-item-danger {
+            color: #dc3545;
+        }
+
+        .dropdown-item-danger:hover {
+            color: #b02a37;
+            background: #fff1f2;
+        }
+
+        /* SortableJS 拖曳樣式 */
+
         .sortable-ghost {
-            opacity: 0.4;
-            background-color: #dbeafe;
+            opacity: 0.35;
+            border: 2px dashed #0d6efd;
+            background: #eaf3ff;
         }
 
-        /* 拖曳中的卡片樣式 */
+        .sortable-chosen {
+            transform: rotate(1deg);
+        }
+
         .sortable-drag {
-            opacity: 1;
+            opacity: 0.96;
         }
 
-        @media (max-width: 768px) {
-            .plan-row {
+        /* =========================
+           統計區
+        ========================= */
+
+        .summary-panel {
+            display: grid;
+            grid-template-columns: 1fr;
+            align-content: start;
+
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            background: #ffffff;
+            box-shadow: 0 7px 20px rgba(37, 55, 77, 0.08);
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 18px;
+
+            min-height: 130px;
+            padding: 24px;
+        }
+
+        .summary-item+.summary-item {
+            border-top: 1px solid var(--border-color);
+        }
+
+        .summary-icon {
+            font-size: 38px;
+        }
+
+        .summary-total .summary-icon {
+            color: #54a8f8;
+        }
+
+        .summary-completed .summary-icon {
+            color: #ff970f;
+        }
+
+        .summary-progress .summary-icon {
+            color: #7e8b99;
+        }
+
+        .summary-label {
+            margin-bottom: 2px;
+            color: var(--muted-color);
+            font-size: 14px;
+        }
+
+        .summary-value {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .progress-circle {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background:
+                conic-gradient(#0d6efd var(--progress-value),
+                    #e7ecf2 0);
+        }
+
+        .progress-circle::after {
+            content: "";
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ffffff;
+        }
+
+        /* =========================
+   上方左右雙欄版面
+========================= */
+
+        .top-dashboard {
+            display: grid;
+
+            /*
+     * 左邊統計區占 320px，
+     * 右邊表單使用剩餘空間。
+     */
+            grid-template-columns: 200px minmax(0, 1fr);
+
+            gap: 24px;
+            align-items: stretch;
+
+            margin-bottom: 30px;
+        }
+
+        /* =========================
+           RWD
+        ========================= */
+
+        @media (max-width: 992px) {
+            .planning-page {
+                width: min(100% - 20px, 900px);
+                padding: 24px;
+            }
+
+            .planning-board {
                 grid-template-columns: 1fr;
             }
 
-            .plan-info {
-                border-right: 0;
-                border-bottom: 1px solid #dddddd;
+            .plan-column {
+                min-height: auto;
             }
 
-            .plan-card {
-                width: 100%;
+            .plan-list {
+                min-height: 180px;
+            }
+
+            .top-dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-panel {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .summary-item+.summary-item {
+                border-top: 0;
+                border-left: 1px solid var(--border-color);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .planning-page {
+                padding: 18px 14px;
+            }
+
+            .goal-form-panel {
+                padding: 24px 18px 20px;
+            }
+
+            .period-section {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .period-options {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+
+            .period-label {
+                min-width: 0;
+                padding: 11px 8px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-field-full {
+                grid-column: auto;
+            }
+
+            .summary-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-item+.summary-item {
+                border-left: 0;
+                border-top: 1px solid var(--border-color);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .period-options {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                letter-spacing: 0;
+            }
+
+            .card-bottom {
+                align-items: flex-start;
+                flex-direction: column;
             }
         }
     </style>
@@ -96,643 +681,1331 @@
 
 <body>
 
-    <div class="container py-5">
+    <main class="planning-page">
 
-        <h1 class="text-center mb-4">
-            短期－中期－長期規劃
-        </h1>
+        <!-- 頁首 -->
+        <header class="page-header">
+            <h1>短期・中期・長期規劃</h1>
 
-        <p class="text-center text-secondary mb-5">
-            拖曳卡片，調整任務的規劃階段
-        </p>
-        <form id="goalForm" class="mb-5">
+            <p>
+                拖曳卡片調整任務的規劃階段
+            </p>
+        </header>
+        <div class="top-dashboard">
+            <!-- 統計區 -->
+            <section class="summary-panel">
 
-            <!-- 第一列：選擇時程 -->
-            <div class="row align-items-start mb-4">
+                <div class="summary-item summary-total">
 
-                <!-- 左邊標題 -->
-                <div class="col-auto">
-                    <div class="fw-bold fs-5">
-                        選擇時程
-                    </div>
-                </div>
+                    <i class="bi bi-clipboard2-check summary-icon"></i>
 
-                <!-- 右邊：radio 與錯誤訊息 -->
-                <div class="col">
-
-                    <div id="planning_group">
-
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input planning-item" name="planningPeriod"
-                                id="shortPeriod" value="short">
-
-                            <label for="shortPeriod" class="form-check-label">
-                                短期
-                            </label>
+                    <div>
+                        <div class="summary-label">
+                            總目標數
                         </div>
 
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input planning-item" name="planningPeriod"
-                                id="mediumPeriod" value="medium">
+                        <p id="totalGoalCount" class="summary-value">
+                            0
+                        </p>
+                    </div>
 
-                            <label for="mediumPeriod" class="form-check-label">
-                                中期
-                            </label>
+                </div>
+
+                <div class="summary-item summary-completed">
+
+                    <i class="bi bi-pie-chart summary-icon"></i>
+
+                    <div>
+                        <div class="summary-label">
+                            已完成
                         </div>
 
-                        <div class="form-check form-check-inline">
-                            <input type="radio" class="form-check-input planning-item" name="planningPeriod"
-                                id="longPeriod" value="long">
+                        <p id="completedGoalCount" class="summary-value">
+                            0
+                        </p>
+                    </div>
 
-                            <label for="longPeriod" class="form-check-label">
-                                長期
-                            </label>
+                </div>
+
+                <div class="summary-item summary-progress">
+
+                    <div id="progressCircle" class="progress-circle" style="--progress-value: 0%;" aria-hidden="true">
+                    </div>
+
+                    <div>
+                        <div class="summary-label">
+                            整體進度
+                        </div>
+
+                        <p id="overallProgress" class="summary-value">
+                            0%
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+            <!-- 新增目標表單 -->
+            <section class="goal-form-panel">
+
+                <form id="goalForm" novalidate>
+
+                    <!-- 規劃時程 -->
+                    <div class="period-section">
+
+                        <p class="field-title">
+                            選擇時程
+                        </p>
+
+                        <div>
+                            <div class="period-options">
+
+                                <div>
+                                    <input type="radio" class="period-radio" name="planningPeriod" id="shortPeriod"
+                                        value="short">
+
+                                    <label for="shortPeriod" class="period-label">
+                                        <i class="bi bi-clock"></i>
+                                        短期
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" class="period-radio" name="planningPeriod" id="mediumPeriod"
+                                        value="medium">
+
+                                    <label for="mediumPeriod" class="period-label">
+                                        <i class="bi bi-calendar"></i>
+                                        中期
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" class="period-radio" name="planningPeriod" id="longPeriod"
+                                        value="long">
+
+                                    <label for="longPeriod" class="period-label">
+                                        <i class="bi bi-calendar2"></i>
+                                        長期
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div id="periodError" class="form-error">
+                                沒有設定完成期限時，請選擇規劃時程
+                            </div>
                         </div>
 
                     </div>
 
-                    <div id="periodError" class="text-danger mt-2 d-none">
-                        請選擇規劃時程
+                    <div class="form-grid">
+
+                        <!-- 目標名稱 -->
+                        <div class="form-field">
+
+                            <label for="goalTitle" class="form-label">
+                                輸入目標
+                            </label>
+
+                            <input type="text" class="form-control" id="goalTitle" placeholder="例如：完成 JavaScript 基礎課程">
+
+                            <div id="titleError" class="form-error">
+                                請輸入目標名稱
+                            </div>
+
+                        </div>
+
+                        <!-- 完成期限 -->
+                        <div class="form-field">
+
+                            <label for="goalDeadline" class="form-label">
+                                完成期限
+                                <span class="optional-text">（選填）</span>
+                            </label>
+
+                            <input type="date" class="form-control" id="goalDeadline">
+
+                            <div id="deadlineError" class="form-error">
+                                完成期限不能早於今天
+                            </div>
+
+                        </div>
+
+                        <!-- 目標說明 -->
+                        <div class="form-field form-field-full">
+
+                            <label for="goalDescription" class="form-label">
+                                目標說明
+                                <span class="optional-text">（選填）</span>
+                            </label>
+
+                            <input type="text" class="form-control" id="goalDescription"
+                                placeholder="例如：完成會員中心、行程規劃及資料庫功能">
+
+                        </div>
+
+                    </div>
+                    <div class="form-bottom justify-content-between">
+                        <div class="form-tip">
+                            <i class="bi bi-lightbulb"></i>
+
+                            <span>
+                                小提醒：未設定期限時，可拖曳卡片到合適的時程區。
+                            </span>
+                        </div>
+
+                        <div class="form-submit-row">
+                            <button type="submit" class="btn btn-primary add-goal-btn">
+                                <i class="bi bi-plus-lg me-2"></i>
+                                新增目標
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </section>
+
+
+        </div>
+
+        <!-- 三欄規劃區 -->
+        <section class="planning-board">
+
+            <!-- 短期 -->
+            <section class="plan-column short-column">
+
+                <header class="column-header">
+
+                    <div class="column-title">
+                        <i class="bi bi-clock"></i>
+                        <h2>短期規劃</h2>
                     </div>
 
-                </div>
-
-            </div>
-
-            <!-- 第二列：輸入目標 -->
-            <div class="row align-items-start g-2 mb-3">
-
-                <!-- 左邊標題 -->
-                <div class="col-auto">
-                    <label for="goalInput" class="form-label fw-bold fs-5 mb-0">
-                        輸入目標
-                    </label>
-                </div>
-
-                <!-- 右邊：輸入框與錯誤訊息 -->
-                <div class="col">
-
-                    <input type="text" class="form-control form-control-lg" id="goalInput"
-                        placeholder="例如：完成 JavaScript 基礎課程">
-
-                    <div id="goalError" class="text-danger mt-2 d-none">
-                        請輸入目標
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="row align-items-center g-2 mt-2">
-
-                <div class="col-auto">
-                    <label for="goalDescription" class="form-label fw-bold fs-5 mb-0">
-                        目標說明
-                    </label>
-                </div>
-
-                <div class="col">
-                    <input type="text" class="form-control" id="goalDescription" placeholder="例如：完成會員中心、行程規劃及資料庫功能">
-                </div>
-
-            </div>
-
-            <!-- 第四列：完成期限 -->
-            <div class="row align-items-start g-2 mt-3">
-
-                <div class="col-auto">
-                    <label for="goalDeadline" class="form-label fw-bold fs-5 mb-0">
-                        完成期限
-                    </label>
-                </div>
-
-                <div class="col">
-
-                    <input type="date" class="form-control" id="goalDeadline">
-
-                    <div class="form-text">
-                        尚未確定期限時可以留空，並在上方選擇短期、中期或長期。
-                    </div>
-
-                    <div id="deadlineError" class="text-danger mt-2 d-none">
-                        完成期限不能早於今天
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- 第五列：總送出按鈕 -->
-            <!-- 新增目標按鈕列 -->
-            <div class="row mt-4">
-
-                <div class="col text-center">
-
-                    <button type="submit" class="btn btn-primary btn-lg px-5">
-                        新增目標
-                    </button>
-
-                </div>
-
-            </div>
-        </form>
-        <div class="planning-board">
-            <!-- 短期規劃 -->
-            <div class="plan-row">
-
-                <!-- 左邊：時程名稱 -->
-                <div class="plan-info">
-
-                    <h2 class="h4 mb-2">
-                        短期規劃
-                    </h2>
-
-                    <p class="text-secondary mb-0">
+                    <p class="column-subtitle">
                         目前～三個月
                     </p>
 
-                </div>
+                </header>
 
-                <!-- 右邊：拖曳卡片 -->
-                <div id="short-term-list" class="plan-list">
+                <!-- <div class="drop-zone-title">
+                    拖曳卡片到這裡
+                </div> -->
 
-                    <div class="card plan-card" data-id="task-1">
+                <div id="short-term-list" class="plan-list" data-period="short"></div>
 
-                        <div class="card-body">
+            </section>
 
-                            <div class="d-flex justify-content-between align-items-start gap-2">
+            <!-- 中期 -->
+            <section class="plan-column medium-column">
 
-                                <h5 class="card-title mb-2">
-                                    完成 FarmTrip 專案
-                                </h5>
+                <header class="column-header">
 
-                                <button type="button" class="btn btn-sm btn-outline-danger delete-card-btn"
-                                    aria-label="刪除目標">
-                                    刪除
-                                </button>
-
-                            </div>
-
-                            <p class="card-text">
-                                完成會員中心、行程規劃及資料庫功能。
-                            </p>
-
-                        </div>
-
+                    <div class="column-title">
+                        <i class="bi bi-calendar"></i>
+                        <h2>中期規劃</h2>
                     </div>
 
-
-                </div>
-
-            </div>
-
-            <!-- 中期規劃 -->
-            <div class="plan-row">
-
-                <div class="plan-info">
-
-                    <h2 class="h4 mb-2">
-                        中期規劃
-                    </h2>
-
-                    <p class="text-secondary mb-0">
+                    <p class="column-subtitle">
                         三個月～一年
                     </p>
 
-                </div>
+                </header>
 
-                <div id="medium-term-list" class="plan-list">
+                <!--                 <div class="drop-zone-title">
+                    拖曳卡片到這裡
+                </div> -->
 
-                    <div class="card plan-card" data-id="task-1">
+                <div id="medium-term-list" class="plan-list" data-period="medium"></div>
 
-                        <div class="card-body">
+            </section>
 
-                            <div class="d-flex justify-content-between align-items-start gap-2">
+            <!-- 長期 -->
+            <section class="plan-column long-column">
 
-                                <h5 class="card-title mb-2">
-                                    完成 FarmTrip 專案
-                                </h5>
+                <header class="column-header">
 
-                                <button type="button" class="btn btn-sm btn-outline-danger delete-card-btn"
-                                    aria-label="刪除目標">
-                                    刪除
-                                </button>
-
-                            </div>
-
-                            <p class="card-text">
-                                完成會員中心、行程規劃及資料庫功能。
-                            </p>
-
-                        </div>
-
+                    <div class="column-title">
+                        <i class="bi bi-calendar2"></i>
+                        <h2>長期規劃</h2>
                     </div>
 
-                </div>
-
-            </div>
-
-            <!-- 長期規劃 -->
-            <div class="plan-row">
-
-                <div class="plan-info">
-
-                    <h2 class="h4 mb-2">
-                        長期規劃
-                    </h2>
-
-                    <p class="text-secondary mb-0">
+                    <p class="column-subtitle">
                         一年以上
                     </p>
 
-                </div>
+                </header>
 
-                <div id="long-term-list" class="plan-list">
+                <!-- <div class="drop-zone-title">
+                    拖曳卡片到這裡
+                </div> -->
 
-                    <div class="card plan-card" data-id="task-1">
+                <div id="long-term-list" class="plan-list" data-period="long"></div>
 
-                        <div class="card-body">
+            </section>
 
-                            <div class="d-flex justify-content-between align-items-start gap-2">
+        </section>
 
-                                <h5 class="card-title mb-2">
-                                    完成 FarmTrip 專案
-                                </h5>
 
-                                <button type="button" class="btn btn-sm btn-outline-danger delete-card-btn"
-                                    aria-label="刪除目標">
-                                    刪除
-                                </button>
 
+    </main>
+
+    <!-- 編輯目標 Modal -->
+    <div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content">
+
+                <form id="editGoalForm">
+
+                    <div class="modal-header">
+
+                        <h2 class="modal-title fs-5" id="editGoalModalLabel">
+                            編輯目標
+                        </h2>
+
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+
+                    </div>
+
+                    <div class="modal-body">
+
+                        <!-- 儲存目前正在編輯的目標 ID -->
+                        <input type="hidden" id="editGoalId">
+
+                        <!-- 目標名稱 -->
+                        <div class="mb-3">
+
+                            <label for="editGoalTitle" class="form-label">
+                                目標名稱
+                            </label>
+
+                            <input type="text" class="form-control" id="editGoalTitle">
+
+                            <div id="editTitleError" class="text-danger small mt-2 d-none">
+                                請輸入目標名稱
                             </div>
 
-                            <p class="card-text">
-                                完成會員中心、行程規劃及資料庫功能。
-                            </p>
+                        </div>
+
+                        <!-- 目標說明 -->
+                        <div class="mb-3">
+
+                            <label for="editGoalDescription" class="form-label">
+                                目標說明
+                                <span class="optional-text">
+                                    （選填）
+                                </span>
+                            </label>
+
+                            <textarea class="form-control" id="editGoalDescription" rows="3"></textarea>
+
+                        </div>
+
+                        <!-- 完成期限 -->
+                        <div class="mb-3">
+
+                            <label for="editGoalDeadline" class="form-label">
+                                完成期限
+                                <span class="optional-text">
+                                    （選填）
+                                </span>
+                            </label>
+
+                            <input type="date" class="form-control" id="editGoalDeadline">
+
+                            <div class="form-text">
+                                設定期限後，系統會重新判斷短期、中期或長期。
+                            </div>
+
+                            <div id="editDeadlineError" class="text-danger small mt-2 d-none">
+                                完成期限不能早於今天
+                            </div>
 
                         </div>
 
                     </div>
 
-                </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            取消
+                        </button>
+
+                        <button type="submit" class="btn btn-primary">
+                            儲存修改
+                        </button>
+
+                    </div>
+
+                </form>
 
             </div>
 
         </div>
+    </div>
 
-        <!-- Bootstrap JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- SortableJS -->
-        <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 
-        <script>
-            /*
-     * 找到新增目標需要使用的 HTML 元素。
-     */
-            const goalForm = document.querySelector("#goalForm");
-            const goalInput = document.querySelector("#goalInput");
-            const goalDescription = document.querySelector("#goalDescription");
-            const goalDeadline = document.querySelector("#goalDeadline");
-            const deadlineError = document.querySelector("#deadlineError");
-            const goalError = document.querySelector("#goalError");
-            const periodError = document.querySelector("#periodError");
+    <script>
+        /*
+         * =========================
+         * 取得 HTML 元素
+         * =========================
+         */
 
+        const goalForm =
+            document.querySelector("#goalForm");
 
-            /*
- * 根據完成期限，判斷短期、中期或長期。
- */
-            function getPlanningPeriod(deadlineValue) {
-                const today = new Date();
-                const deadlineDate = new Date(deadlineValue + "T00:00:00");
+        const goalTitle =
+            document.querySelector("#goalTitle");
 
-                today.setHours(0, 0, 0, 0);
+        const goalDeadline =
+            document.querySelector("#goalDeadline");
 
-                /*
-                 * 建立「今天的三個月後」。
-                 */
-                const threeMonthsLater = new Date(today);
-                threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+        const goalDescription =
+            document.querySelector("#goalDescription");
 
-                /*
-                 * 建立「今天的一年後」。
-                 */
-                const oneYearLater = new Date(today);
-                oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+        const titleError =
+            document.querySelector("#titleError");
 
-                /*
-                 * 期限在三個月內，屬於短期。
-                 */
-                if (deadlineDate <= threeMonthsLater) {
-                    return "short";
-                }
+        const periodError =
+            document.querySelector("#periodError");
 
-                /*
-                 * 超過三個月，但在一年內，屬於中期。
-                 */
-                if (deadlineDate <= oneYearLater) {
-                    return "medium";
-                }
+        const deadlineError =
+            document.querySelector("#deadlineError");
 
-                /*
-                 * 超過一年，屬於長期。
-                 */
-                return "long";
+        const planLists =
+            document.querySelectorAll(".plan-list");
+
+        const totalGoalCount =
+            document.querySelector("#totalGoalCount");
+
+        const completedGoalCount =
+            document.querySelector("#completedGoalCount");
+
+        const overallProgress =
+            document.querySelector("#overallProgress");
+
+        const progressCircle =
+            document.querySelector("#progressCircle");
+
+        /*
+         * 編輯目標 Modal 相關元素。
+         */
+        const editGoalModalElement =
+            document.querySelector("#editGoalModal");
+
+        const editGoalModal =
+            new bootstrap.Modal(editGoalModalElement);
+
+        const editGoalForm =
+            document.querySelector("#editGoalForm");
+
+        const editGoalId =
+            document.querySelector("#editGoalId");
+
+        const editGoalTitle =
+            document.querySelector("#editGoalTitle");
+
+        const editGoalDescription =
+            document.querySelector("#editGoalDescription");
+
+        const editGoalDeadline =
+            document.querySelector("#editGoalDeadline");
+
+        const editTitleError =
+            document.querySelector("#editTitleError");
+
+        const editDeadlineError =
+            document.querySelector("#editDeadlineError");
+
+        /*
+         * localStorage 儲存鍵名。
+         */
+        const STORAGE_KEY = "shortMediumLongGoals";
+
+        /*
+         * 網頁目前使用的目標資料。
+         */
+        let goals = [];
+
+        /*
+         * =========================
+         * 日期處理
+         * =========================
+         */
+
+        function createLocalDate(dateValue) {
+            return new Date(dateValue + "T00:00:00");
+        }
+
+        function getToday() {
+            const today = new Date();
+
+            today.setHours(0, 0, 0, 0);
+
+            return today;
+        }
+
+        function formatDate(dateValue) {
+            if (!dateValue) {
+                return "尚未設定";
             }
-            /*
-             * 當使用者送出表單時執行。
-             */
-            goalForm.addEventListener("submit", function (event) {
 
-                /*
-                 * 阻止表單送出後重新整理頁面。
-                 */
+            const date = createLocalDate(dateValue);
+
+            return new Intl.DateTimeFormat(
+                "zh-TW",
+                {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit"
+                }
+            ).format(date);
+        }
+
+        /*
+         * 有期限時，自動判斷短期、中期、長期。
+         */
+        function getPeriodByDeadline(deadlineValue) {
+            const today = getToday();
+            const deadline = createLocalDate(deadlineValue);
+
+            const threeMonthsLater = new Date(today);
+            threeMonthsLater.setMonth(
+                threeMonthsLater.getMonth() + 3
+            );
+
+            const oneYearLater = new Date(today);
+            oneYearLater.setFullYear(
+                oneYearLater.getFullYear() + 1
+            );
+
+            if (deadline <= threeMonthsLater) {
+                return "short";
+            }
+
+            if (deadline <= oneYearLater) {
+                return "medium";
+            }
+
+            return "long";
+        }
+
+        /*
+         * =========================
+         * 儲存與讀取
+         * =========================
+         */
+
+        function saveGoals() {
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(goals)
+            );
+        }
+
+        function loadGoals() {
+            const savedData =
+                localStorage.getItem(STORAGE_KEY);
+
+            if (savedData === null) {
+                goals = createDefaultGoals();
+                saveGoals();
+                return;
+            }
+
+            try {
+                const parsedData = JSON.parse(savedData);
+
+                goals = Array.isArray(parsedData)
+                    ? parsedData
+                    : [];
+            } catch (error) {
+                console.error("目標資料讀取失敗：", error);
+
+                goals = [];
+            }
+        }
+
+        /*
+         * 第一次開啟頁面時顯示的範例資料。
+         */
+        function createDefaultGoals() {
+            return [
+                {
+                    id: "goal-1",
+                    title: "完成 FarmTrip 專案會員中心",
+                    description: "會員註冊、登入、個人資料管理功能。",
+                    deadline: "2026-08-15",
+                    period: "short",
+                    status: "progress",
+                    order: 0
+                },
+                {
+                    id: "goal-2",
+                    title: "設計資料庫結構",
+                    description: "完成主要資料表規劃與關聯設定。",
+                    deadline: "2026-09-30",
+                    period: "short",
+                    status: "pending",
+                    order: 1
+                },
+                {
+                    id: "goal-3",
+                    title: "完成 JavaScript 基礎課程",
+                    description: "學習 ES6+ 語法與常用 API。",
+                    deadline: "",
+                    period: "short",
+                    status: "pending",
+                    order: 2
+                },
+                {
+                    id: "goal-4",
+                    title: "行程規劃功能開發",
+                    description: "實作新增、編輯、刪除行程功能。",
+                    deadline: "2027-01-30",
+                    period: "medium",
+                    status: "pending",
+                    order: 0
+                },
+                {
+                    id: "goal-5",
+                    title: "整合地圖與路線規劃",
+                    description: "串接 Google Maps API 顯示路線。",
+                    deadline: "2027-05-15",
+                    period: "medium",
+                    status: "pending",
+                    order: 1
+                },
+                
+            ];
+        }
+
+        /*
+         * =========================
+         * 建立卡片
+         * =========================
+         */
+
+        function getStatusText(status) {
+            if (status === "completed") {
+                return "已完成";
+            }
+
+            if (status === "progress") {
+                return "進行中";
+            }
+
+            return "待處理";
+        }
+
+        function getStatusClass(status) {
+            if (status === "completed") {
+                return "status-completed";
+            }
+
+            if (status === "progress") {
+                return "status-progress";
+            }
+
+            return "status-pending";
+        }
+
+        function createGoalCard(goal) {
+            const card = document.createElement("article");
+
+            card.className = "plan-card";
+
+            if (goal.status === "completed") {
+                card.classList.add("completed");
+            }
+
+            card.dataset.id = goal.id;
+
+            card.innerHTML = `
+                <div class="card-body">
+
+                    <div class="card-top">
+
+                        <h3 class="card-title"></h3>
+
+                        <div class="dropdown">
+
+                            <button
+                                type="button"
+                                class="card-menu-btn"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false"
+                                aria-label="開啟目標選單"
+                            >
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+    <button
+        type="button"
+        class="dropdown-item edit-goal-btn"
+    >
+        <i class="bi bi-pencil me-2"></i>
+        編輯目標
+    </button>
+</li>
+
+<li>
+    <hr class="dropdown-divider">
+</li>
+                                <li>
+                                    <button
+                                        type="button"
+                                        class="dropdown-item toggle-status-btn"
+                                    >
+                                        ${goal.status === "completed"
+                    ? "恢復待處理"
+                    : "標記為完成"
+                }
+                                    </button>
+                                </li>
+
+                                <li>
+                                    <button
+                                        type="button"
+                                        class="dropdown-item set-progress-btn"
+                                    >
+                                        設為進行中
+                                    </button>
+                                </li>
+
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+
+                                <li>
+                                    <button
+                                        type="button"
+                                        class="dropdown-item dropdown-item-danger delete-goal-btn"
+                                    >
+                                        刪除目標
+                                    </button>
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                    <p class="card-text"></p>
+
+                    <div class="card-bottom">
+
+                        <span class="deadline-text">
+                            <i class="bi bi-calendar"></i>
+                            <span class="deadline-value"></span>
+                        </span>
+
+                        <span class="status-badge"></span>
+
+                    </div>
+
+                </div>
+            `;
+
+            card.querySelector(".card-title").textContent =
+                goal.title;
+
+            card.querySelector(".card-text").textContent =
+                goal.description || "尚未填寫目標說明";
+
+            card.querySelector(".deadline-value").textContent =
+                formatDate(goal.deadline);
+
+            const statusBadge =
+                card.querySelector(".status-badge");
+
+            statusBadge.textContent =
+                getStatusText(goal.status);
+
+            statusBadge.classList.add(
+                getStatusClass(goal.status)
+            );
+
+            return card;
+        }
+
+        /*
+         * =========================
+         * 畫面渲染
+         * =========================
+         */
+
+        function getListByPeriod(period) {
+            if (period === "short") {
+                return document.querySelector(
+                    "#short-term-list"
+                );
+            }
+
+            if (period === "medium") {
+                return document.querySelector(
+                    "#medium-term-list"
+                );
+            }
+
+            return document.querySelector(
+                "#long-term-list"
+            );
+        }
+
+        function renderGoals() {
+            planLists.forEach(function (list) {
+                list.innerHTML = "";
+            });
+
+            const periodOrder = [
+                "short",
+                "medium",
+                "long"
+            ];
+
+            periodOrder.forEach(function (period) {
+                const targetList =
+                    getListByPeriod(period);
+
+                const periodGoals = goals
+                    .filter(function (goal) {
+                        return goal.period === period;
+                    })
+                    .sort(function (firstGoal, secondGoal) {
+                        return firstGoal.order - secondGoal.order;
+                    });
+
+                periodGoals.forEach(function (goal) {
+                    targetList.appendChild(
+                        createGoalCard(goal)
+                    );
+                });
+            });
+
+            updateSummary();
+        }
+
+        /*
+         * =========================
+         * 統計資料
+         * =========================
+         */
+
+        function updateSummary() {
+            const total = goals.length;
+
+            const completed = goals.filter(
+                function (goal) {
+                    return goal.status === "completed";
+                }
+            ).length;
+
+            const progress =
+                total === 0
+                    ? 0
+                    : Math.round(
+                        completed / total * 100
+                    );
+
+            totalGoalCount.textContent = total;
+            completedGoalCount.textContent = completed;
+            overallProgress.textContent = progress + "%";
+
+            progressCircle.style.setProperty(
+                "--progress-value",
+                progress + "%"
+            );
+        }
+
+        /*
+         * =========================
+         * 表單驗證
+         * =========================
+         */
+
+        function hideErrors() {
+            titleError.classList.remove("show");
+            periodError.classList.remove("show");
+            deadlineError.classList.remove("show");
+        }
+
+        function validateForm(
+            title,
+            deadline,
+            selectedPeriod
+        ) {
+            hideErrors();
+
+            let isValid = true;
+
+            if (title === "") {
+                titleError.classList.add("show");
+                isValid = false;
+            }
+
+            /*
+             * 沒有期限時，必須手動選時程。
+             */
+            if (
+                deadline === "" &&
+                selectedPeriod === null
+            ) {
+                periodError.classList.add("show");
+                isValid = false;
+            }
+
+            /*
+             * 有期限時，不可以早於今天。
+             */
+            if (deadline !== "") {
+                const deadlineDate =
+                    createLocalDate(deadline);
+
+                if (deadlineDate < getToday()) {
+                    deadlineError.classList.add("show");
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        /*
+         * =========================
+         * 新增目標
+         * =========================
+         */
+
+        goalForm.addEventListener(
+            "submit",
+            function (event) {
                 event.preventDefault();
 
-                /*
-                 * 取得輸入的目標。
-                 * trim() 會移除文字前後的空白。
-                 */
-                const goalText = goalInput.value.trim();
-                const descriptionText = goalDescription.value.trim();
-                const deadlineValue = goalDeadline.value;
+                const title =
+                    goalTitle.value.trim();
 
-                /*
-                 * 找到目前被勾選的規劃時程。
-                 */
-                const selectedPeriod = document.querySelector(
-                    'input[name="planningPeriod"]:checked'
+                const description =
+                    goalDescription.value.trim();
+
+                const deadline =
+                    goalDeadline.value;
+
+                const selectedPeriod =
+                    document.querySelector(
+                        'input[name="planningPeriod"]:checked'
+                    );
+
+                const isValid = validateForm(
+                    title,
+                    deadline,
+                    selectedPeriod
                 );
 
-                /*
-                 * 先假設表單正確。
-                 */
-                let isValid = true;
-
-                /*
-                 * 如果沒有輸入目標，顯示錯誤。
-                 */
-                if (goalText === "") {
-                    goalError.classList.remove("d-none");
-                    isValid = false;
-                } else {
-                    goalError.classList.add("d-none");
-                }
-
-                /*
-                 * 如果沒有選擇時程，顯示錯誤。
-                 */
-                /*
- * 只有在「沒有期限」的情況下，
- * 才要求使用者手動選擇時程。
- */
-                if (deadlineValue === "" && selectedPeriod === null) {
-                    periodError.textContent = "沒有填寫完成期限時，請選擇規劃時程";
-                    periodError.classList.remove("d-none");
-                    isValid = false;
-                } else {
-                    periodError.classList.add("d-none");
-                }
-
-                /*
- * 如果有填期限，就檢查期限是否早於今天。
- */
-                if (deadlineValue !== "") {
-                    const today = new Date();
-                    const deadlineDate = new Date(deadlineValue + "T00:00:00");
-
-                    /*
-                     * 把今天的時間清成凌晨 00:00:00，
-                     * 避免同一天因為時分秒不同而被判定成過期。
-                     */
-                    today.setHours(0, 0, 0, 0);
-
-                    if (deadlineDate < today) {
-                        deadlineError.classList.remove("d-none");
-                        isValid = false;
-                    } else {
-                        deadlineError.classList.add("d-none");
-                    }
-                } else {
-                    deadlineError.classList.add("d-none");
-                }
-                /*
-                 * 表單有錯誤時，不繼續建立卡片。
-                 */
                 if (isValid === false) {
                     return;
                 }
 
                 /*
-                 * 根據使用者選擇的時程，
-                 * 決定卡片要加入哪一個區域。
+                 * 有期限：系統自動分類。
+                 * 沒期限：使用 radio 的選擇。
                  */
-                let targetList;
-                let planningPeriod;
+                const period =
+                    deadline !== ""
+                        ? getPeriodByDeadline(deadline)
+                        : selectedPeriod.value;
 
-                /*
-                 * 有完成期限：由系統自動判斷時程。
-                 */
-                if (deadlineValue !== "") {
-                    planningPeriod = getPlanningPeriod(deadlineValue);
-                }
+                const samePeriodGoals =
+                    goals.filter(function (goal) {
+                        return goal.period === period;
+                    });
 
-                /*
-                 * 沒有完成期限：使用 radio 的手動選擇。
-                 */
-                else {
-                    planningPeriod = selectedPeriod.value;
-                }
+                const newGoal = {
+                    id:
+                        "goal-" +
+                        Date.now() +
+                        "-" +
+                        Math.random()
+                            .toString(16)
+                            .slice(2),
 
-                /*
-                 * 根據最後決定的時程，找到對應區域。
-                 */
-                if (planningPeriod === "short") {
-                    targetList = document.querySelector("#short-term-list");
-                } else if (planningPeriod === "medium") {
-                    targetList = document.querySelector("#medium-term-list");
-                } else {
-                    targetList = document.querySelector("#long-term-list");
-                }
+                    title: title,
+                    description: description,
+                    deadline: deadline,
+                    period: period,
+                    status: "pending",
+                    order: samePeriodGoals.length
+                };
 
-                /*
-                 * 建立新的 Bootstrap 卡片。
-                 */
-                const newCard = document.createElement("div");
+                goals.push(newGoal);
 
-                /*
-                 * 加入 Bootstrap 卡片樣式與拖曳用樣式。
-                 */
-                newCard.className = "card plan-card";
+                saveGoals();
+                renderGoals();
 
-                /*
-                 * 使用目前時間建立簡單且不重複的 ID。
-                 */
-                newCard.dataset.id = "task-" + Date.now();
+                goalForm.reset();
+                hideErrors();
+                goalTitle.focus();
+            }
+        );
 
-                /*
-                 * 建立卡片裡面的內容。
-                 */
-                newCard.innerHTML = `
-    <div class="card-body">
+        /*
+         * =========================
+         * 卡片操作：完成、進行中、刪除
+         * =========================
+         */
 
-        <div class="d-flex justify-content-between align-items-start gap-2">
+        document.addEventListener(
+            "click",
+            function (event) {
+                const card =
+                    event.target.closest(".plan-card");
 
-            <h5 class="card-title mb-2"></h5>
-
-            <button
-                type="button"
-                class="btn btn-sm btn-outline-danger delete-card-btn"
-                aria-label="刪除目標"
-            >
-                刪除
-            </button>
-
-        </div>
-
-        <p class="card-text"></p>
-
-        <p class="card-deadline text-secondary small mb-0"></p>
-
-    </div>
-`;
-
-                /*
-                 * 使用 textContent 放入文字，
-                 * 避免使用者輸入 HTML 或 JavaScript。
-                 */
-                newCard.querySelector(".card-title").textContent = goalText;
-                newCard.querySelector(".card-text").textContent = descriptionText;
-
-                const deadlineElement = newCard.querySelector(".card-deadline");
-
-                if (deadlineValue !== "") {
-                    deadlineElement.textContent = "完成期限：" + deadlineValue;
-                } else {
-                    deadlineElement.textContent = "完成期限：尚未設定";
-                }
-                /*
-                 * 把新卡片加入指定的短期、中期或長期區域。
-                 */
-                targetList.appendChild(newCard);
-
-                /*
-                 * 新增完成後清空輸入欄。
-                 */
-                goalInput.value = "";
-                goalDescription.value = "";
-                goalDeadline.value = "";
-
-                /*
-                 * 取消目前選取的 radio。
-                 */
-                if (selectedPeriod !== null) {
-                    selectedPeriod.checked = false;
-                }
-                /*
-                 * 將輸入焦點移回目標欄位。
-                 */
-                goalInput.focus();
-            });
-            /*
-             * 找到三個規劃區域。
-             */
-            const planLists = document.querySelectorAll(".plan-list");
-
-            /*
-             * 分別替三個區域建立拖曳功能。
-             */
-            planLists.forEach(function (planList) {
-                new Sortable(planList, {
-                    /*
-                     * 三個區域使用相同 group 名稱，
-                     * 所以卡片可以跨區域拖曳。
-                     */
-                    group: "planning",
-
-                    /*
-                     * 拖曳移動的動畫時間。
-                     * 單位是毫秒。
-                     */
-                    animation: 200,
-
-                    /*
-                     * 只有 .plan-card 可以被拖曳。
-                     */
-                    draggable: ".plan-card",
-
-                    /*
-                     * 拖曳時，原位置顯示的樣式。
-                     */
-                    ghostClass: "sortable-ghost",
-
-                    /*
-                     * 拖曳結束後執行。
-                     */
-                    onEnd: function (event) {
-                        console.log("卡片拖曳完成");
-
-                        console.log("原本區域：", event.from.id);
-
-                        console.log("新的區域：", event.to.id);
-
-                        console.log("新的位置：", event.newIndex);
-                    }
-                });
-            });
-
-            /*
- * 監聽整個規劃區域的點擊事件。
- */
-            document.addEventListener("click", function (event) {
-
-                /*
-                 * 判斷使用者點擊的元素，
-                 * 是否為刪除按鈕。
-                 */
-                const deleteButton = event.target.closest(".delete-card-btn");
-
-                /*
-                 * 如果不是點擊刪除按鈕，就停止。
-                 */
-                if (deleteButton === null) {
-                    return;
-                }
-
-                /*
-                 * 找到刪除按鈕所在的整張卡片。
-                 */
-                const card = deleteButton.closest(".plan-card");
-
-                /*
-                 * 如果找不到卡片，就停止。
-                 */
                 if (card === null) {
                     return;
                 }
 
-                /*
-                 * 顯示確認視窗。
-                 */
-                const cardTitle = card.querySelector(".card-title").textContent;
+                const goalId = card.dataset.id;
 
-                const isConfirmed = confirm(
-                    `確定要刪除「${cardTitle}」嗎？`
+                const goal = goals.find(
+                    function (item) {
+                        return item.id === goalId;
+                    }
                 );
 
-                /*
-                 * 使用者取消時，不刪除卡片。
-                 */
-                if (isConfirmed === false) {
+                if (!goal) {
                     return;
                 }
 
                 /*
-                 * 從畫面移除整張卡片。
+ * 開啟編輯目標 Modal。*/
+                if (
+                    event.target.closest(".edit-goal-btn")
+                ) {
+                    /*
+                     * 把目前目標資料放進編輯表單。
+                     */
+                    editGoalId.value = goal.id;
+                    editGoalTitle.value = goal.title;
+                    editGoalDescription.value =
+                        goal.description || "";
+                    editGoalDeadline.value =
+                        goal.deadline || "";
+
+                    /*
+                     * 清除上一次的錯誤訊息。
+                     */
+                    editTitleError.classList.add("d-none");
+                    editDeadlineError.classList.add("d-none");
+
+                    /*
+                     * 開啟 Modal。
+                     */
+                    editGoalModal.show();
+
+                    return;
+                }
+
+                /*
+                 * 標記完成／恢復待處理。
                  */
-                card.remove();
+                if (
+                    event.target.closest(
+                        ".toggle-status-btn"
+                    )
+                ) {
+                    goal.status =
+                        goal.status === "completed"
+                            ? "pending"
+                            : "completed";
+
+                    saveGoals();
+                    renderGoals();
+                    return;
+                }
+
+                /*
+                 * 設為進行中。
+                 */
+                if (
+                    event.target.closest(
+                        ".set-progress-btn"
+                    )
+                ) {
+                    goal.status = "progress";
+
+                    saveGoals();
+                    renderGoals();
+                    return;
+                }
+
+                /*
+                 * 刪除目標。
+                 */
+                if (
+                    event.target.closest(
+                        ".delete-goal-btn"
+                    )
+                ) {
+                    const confirmed = confirm(
+                        `確定要刪除「${goal.title}」嗎？`
+                    );
+
+                    if (confirmed === false) {
+                        return;
+                    }
+
+                    goals = goals.filter(
+                        function (item) {
+                            return item.id !== goalId;
+                        }
+                    );
+
+                    normalizeOrders();
+                    saveGoals();
+                    renderGoals();
+                }
+            }
+        );
+
+        /*
+ * =========================
+ * 儲存編輯後的目標
+ * =========================
+ */
+
+        editGoalForm.addEventListener(
+            "submit",
+            function (event) {
+                /*
+                 * 阻止表單重新整理網頁。
+                 */
+                event.preventDefault();
+
+                /*
+                 * 取得 Modal 裡的最新資料。
+                 */
+                const goalId =
+                    editGoalId.value;
+
+                const newTitle =
+                    editGoalTitle.value.trim();
+
+                const newDescription =
+                    editGoalDescription.value.trim();
+
+                const newDeadline =
+                    editGoalDeadline.value;
+
+                /*
+                 * 根據 ID 找到原本的目標。
+                 */
+                const goal = goals.find(
+                    function (item) {
+                        return item.id === goalId;
+                    }
+                );
+
+                if (!goal) {
+                    alert("找不到要編輯的目標");
+                    return;
+                }
+
+                /*
+                 * 先清除錯誤訊息。
+                 */
+                editTitleError.classList.add("d-none");
+                editDeadlineError.classList.add("d-none");
+
+                let isValid = true;
+
+                /*
+                 * 目標名稱為必填。
+                 */
+                if (newTitle === "") {
+                    editTitleError.classList.remove("d-none");
+                    isValid = false;
+                }
+
+                /*
+                 * 有填期限時，不可以早於今天。
+                 */
+                if (newDeadline !== "") {
+                    const deadlineDate =
+                        createLocalDate(newDeadline);
+
+                    if (deadlineDate < getToday()) {
+                        editDeadlineError.classList.remove(
+                            "d-none"
+                        );
+
+                        isValid = false;
+                    }
+                }
+
+                if (isValid === false) {
+                    return;
+                }
+
+                /*
+                 * 記錄原本所在的時程區。
+                 */
+                const oldPeriod = goal.period;
+
+                /*
+                 * 更新目標基本資料。
+                 */
+                goal.title = newTitle;
+                goal.description = newDescription;
+                goal.deadline = newDeadline;
+
+                /*
+                 * 有設定期限時：
+                 * 依照新期限重新判斷時程。
+                 *
+                 * 沒有設定期限時：
+                 * 保留原本所在的時程區。
+                 */
+                if (newDeadline !== "") {
+                    goal.period =
+                        getPeriodByDeadline(newDeadline);
+                } else {
+                    goal.period = oldPeriod;
+                }
+
+                /*
+                 * 如果因期限改變而移到其他時程，
+                 * 將它放到新區域的最後面。
+                 */
+                if (goal.period !== oldPeriod) {
+                    const targetPeriodGoals =
+                        goals.filter(function (item) {
+                            return (
+                                item.period === goal.period &&
+                                item.id !== goal.id
+                            );
+                        });
+
+                    goal.order = targetPeriodGoals.length;
+                }
+
+                /*
+                 * 重新整理各區排序。
+                 */
+                normalizeOrders();
+
+                /*
+                 * 儲存資料並重新產生畫面。
+                 */
+                saveGoals();
+                renderGoals();
+
+                /*
+                 * 關閉 Modal。
+                 */
+                editGoalModal.hide();
+            }
+        );
+        /*
+         * =========================
+         * 拖曳排序
+         * =========================
+         */
+
+        planLists.forEach(function (planList) {
+            new Sortable(planList, {
+                group: "planning",
+                animation: 200,
+                draggable: ".plan-card",
+                ghostClass: "sortable-ghost",
+                chosenClass: "sortable-chosen",
+                dragClass: "sortable-drag",
+
+                onEnd: function () {
+                    updateGoalsFromBoard();
+                }
             });
-        </script>
+        });
+
+        /*
+         * 拖曳完成後，依照目前畫面順序，
+         * 更新 goals 裡的 period 與 order。
+         */
+        function updateGoalsFromBoard() {
+            planLists.forEach(function (list) {
+                const period = list.dataset.period;
+
+                const cards =
+                    list.querySelectorAll(".plan-card");
+
+                cards.forEach(
+                    function (card, index) {
+                        const goal = goals.find(
+                            function (item) {
+                                return (
+                                    item.id ===
+                                    card.dataset.id
+                                );
+                            }
+                        );
+
+                        if (!goal) {
+                            return;
+                        }
+
+                        goal.period = period;
+                        goal.order = index;
+                    }
+                );
+            });
+
+            saveGoals();
+            updateSummary();
+        }
+
+        /*
+         * 刪除後重新整理每一區的排序數字。
+         */
+        function normalizeOrders() {
+            const periods = [
+                "short",
+                "medium",
+                "long"
+            ];
+
+            periods.forEach(function (period) {
+                goals
+                    .filter(function (goal) {
+                        return goal.period === period;
+                    })
+                    .sort(function (firstGoal, secondGoal) {
+                        return firstGoal.order - secondGoal.order;
+                    })
+                    .forEach(function (goal, index) {
+                        goal.order = index;
+                    });
+            });
+        }
+
+        /*
+         * =========================
+         * 頁面初始化
+         * =========================
+         */
+
+        loadGoals();
+        renderGoals();
+    </script>
 
 </body>
 
